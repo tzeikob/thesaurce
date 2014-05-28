@@ -65,6 +65,7 @@ public class ConnectionPool implements ConnectionManager {
      *
      * @param minIdleConnections the number of minimum idle connections.
      */
+    @Override
     public void setMinIdleConnections(int minIdleConnections) {
         pool.setMinIdle(minIdleConnections);
     }
@@ -74,6 +75,7 @@ public class ConnectionPool implements ConnectionManager {
      *
      * @param maxActiveConnections the number of maximum active connections.
      */
+    @Override
     public void setMaxActiveConnections(int maxActiveConnections) {
         pool.setMaxActive(maxActiveConnections);
     }

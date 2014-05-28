@@ -7,6 +7,8 @@ package me.akiss.dsb.db;
  */
 public interface ConnectionManager {
 
+    public void setMinIdleConnections(int minIdleConnections);
+    public void setMaxActiveConnections(int maxActiveConnections);
     public ConnectionSession getSession();
     public void reset();
 }
