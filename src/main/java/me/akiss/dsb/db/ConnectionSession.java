@@ -15,6 +15,7 @@ public class ConnectionSession {
 
     // Logger
     private static final Logger logger = Logger.getLogger(ConnectionSession.class);
+    
     // Datasource connection
     private Connection connection;
 
