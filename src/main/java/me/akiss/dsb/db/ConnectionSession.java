@@ -2,6 +2,7 @@ package me.akiss.dsb.db;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.apache.log4j.Logger;
 
@@ -14,7 +15,6 @@ public class ConnectionSession {
 
     // Logger
     private static final Logger logger = Logger.getLogger(ConnectionSession.class);
-    
     // Datasource connection
     private Connection connection;
 
@@ -38,7 +38,7 @@ public class ConnectionSession {
         try {
             statement = connection.prepareStatement(query);
         } catch (SQLException exc) {
-            logger.error("An error occurred gettin a prepared statement for the query identified by '" + query + "'.");
+            logger.error("An error occurred creating a prepared statement '" + exc.getMessage() + "'.");
         }
 
         return statement;
@@ -55,7 +55,22 @@ public class ConnectionSession {
                 statement.close();
             }
         } catch (SQLException exc) {
-            logger.error("An error occurred closing the statement identified by '" + statement.toString() + "'.");
+            logger.error("An error occurred closing the statement '" + exc.getMessage() + "'.");
+        }
+    }
+
+    /**
+     * A method releasing a result set resource.
+     *
+     * @param resultSet the result set resource.
+     */
+    public void closeResultSet(ResultSet resultSet) {
+        try {
+            if (resultSet != null) {
+                resultSet.close();
+            }
+        } catch (SQLException exc) {
+            logger.error("An error occurred closing the result set '" + exc.getMessage() + "'.");
         }
     }
 
@@ -68,7 +83,7 @@ public class ConnectionSession {
                 connection.close();
             }
         } catch (SQLException exc) {
-            logger.error("An error occured closing a connection session.");
+            logger.error("An error occured closing a connection session '" + exc.getMessage() + "'.");
         }
     }
 }
