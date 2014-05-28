@@ -90,7 +90,7 @@ public class ConnectionPool implements ConnectionManager {
         try {
             session = new ConnectionSession(datasource.getConnection());
         } catch (SQLException exc) {
-            logger.error("An error occurred getting a new connection session.");
+            logger.error("An error occurred getting a new connection session '" + exc.getMessage() + "'.");
         }
 
         return session;
