@@ -34,7 +34,7 @@ public class GenericTestCase {
     
     @Test
     public void testMultipleConnections() {
-        List<ConnectionSession> sessions = new ArrayList<ConnectionSession>();
+        List<ConnectionSession> sessions = new ArrayList<>();
         
         cm.setMinIdleConnections(10);
         cm.setMaxActiveConnections(21);
