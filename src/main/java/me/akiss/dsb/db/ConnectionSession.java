@@ -56,11 +56,11 @@ public class ConnectionSession {
      */
     public void closeStatement(PreparedStatement statement) {
         try {
-            if (statement != null) {
+            if (statement != null && !statement.isClosed()) {
                 statement.close();
             }
         } catch (SQLException exc) {
-            logger.error("An unknown error occurred closing  statement: '" + exc.getMessage() + "'.");
+            logger.error("An unknown error occurred closing a statement: '" + exc.getMessage() + "'.");
         }
     }
 
@@ -71,7 +71,7 @@ public class ConnectionSession {
      */
     public void closeResultSet(ResultSet resultSet) {
         try {
-            if (resultSet != null) {
+            if (resultSet != null && !resultSet.isClosed()) {
                 resultSet.close();
             }
         } catch (SQLException exc) {
