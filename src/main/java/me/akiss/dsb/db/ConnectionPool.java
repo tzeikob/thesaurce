@@ -10,7 +10,7 @@ import org.apache.commons.pool.impl.GenericObjectPool;
 import org.apache.log4j.Logger;
 
 /**
- * A poolable connection manager.
+ * A poolable JDBC connection manager implementation.
  *
  * @author Akis Papadopoulos, iakopap@gmail.com
  */
@@ -56,7 +56,7 @@ public class ConnectionPool implements ConnectionManager {
         } catch (ClassNotFoundException exc) {
             logger.error("An error occurred loading the JDBC driver identified by '" + jdbcDriver + "'.");
         } catch (Exception exc) {
-            logger.error("An error occurred setting up a connection manager for the database '" + jdbcUrl + "'.");
+            logger.error("An unknown error occurred setting up a connection manager: '" + exc.getMessage() + "'.");
         }
     }
 
@@ -92,7 +92,7 @@ public class ConnectionPool implements ConnectionManager {
         try {
             session = new ConnectionSession(datasource.getConnection());
         } catch (SQLException exc) {
-            logger.error("An error occurred getting a new connection session '" + exc.getMessage() + "'.");
+            logger.error("An unknown error occurred getting a new connection session: '" + exc.getMessage() + "'.");
         }
 
         return session;
@@ -122,7 +122,7 @@ public class ConnectionPool implements ConnectionManager {
         try {
             super.finalize();
         } catch (Throwable exc) {
-            logger.error("An error occurred finalizing the connection manager.");
+            logger.error("An unknown error occurred finalizing the connection manager: '" + exc.getMessage() + "'.");
         }
     }
 }
