@@ -91,4 +91,21 @@ public class ConnectionSession {
             logger.error("An unknown error occured closing a connection session: '" + exc.getMessage() + "'.");
         }
     }
+    
+    /**
+     * A method returning the state of the connection session.
+     * 
+     * @return true if the session is closed, otherwise false.
+     */
+    public boolean isClosed() {
+        boolean closed = true;
+        
+        try {
+            closed =  connection.isClosed();
+        } catch (SQLException exc) {
+            logger.error("An unknown error occured checking if a connection session is closed: '" + exc.getMessage() + "'.");
+        }
+        
+        return closed;
+    }
 }
