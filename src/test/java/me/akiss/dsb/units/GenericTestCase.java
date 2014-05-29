@@ -1,5 +1,8 @@
 package me.akiss.dsb.units;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import me.akiss.dsb.db.ConnectionManager;
@@ -20,7 +23,7 @@ public class GenericTestCase {
     private static final Logger logger = Logger.getLogger(GenericTestCase.class);
     
     // Connection manager
-    private static ConnectionManager cm = new ConnectionPool("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/lf62_plain?useUnicode=true&characterEncoding=UTF-8&useFastDateParsing=false", "root", "root");
+    private static ConnectionManager cm = new ConnectionPool("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/agrodb?useUnicode=true&characterEncoding=UTF-8&useFastDateParsing=false", "root", "root");
     
     @Test
     public void testConnection() {
@@ -34,14 +37,33 @@ public class GenericTestCase {
         List<ConnectionSession> sessions = new ArrayList<ConnectionSession>();
         
         cm.setMinIdleConnections(10);
-        cm.setMaxActiveConnections(31);
+        cm.setMaxActiveConnections(21);
         
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 20; i++) {
             ConnectionSession session = cm.getSession();
             
             sessions.add(session);
         }
         
-        assertTrue(sessions.size() == 30);
+        assertTrue(sessions.size() == 20);
+    }
+    
+    @Test
+    public void testSelectStatement() throws SQLException {
+        String query = "SELECT * FROM fields WHERE region LIKE ?";
+        
+        ConnectionSession cs = cm.getSession();
+        
+        PreparedStatement ps = cs.getStatement(query);
+        ps.setString(1, "ΜΠΑ%");
+        ResultSet result = ps.executeQuery();
+        
+        while(result.next()) {
+            logger.info("[" + result.getString("fid") + ", " + result.getString("region") + "]");
+        }
+        
+        cs.close(ps, result);
+        
+        assertTrue(cs.isClosed());
     }
 }
