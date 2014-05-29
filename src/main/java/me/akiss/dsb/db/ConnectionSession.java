@@ -50,40 +50,22 @@ public class ConnectionSession {
     }
 
     /**
-     * A method releasing a prepared statement resource.
+     * A method closing an open connection session given the related statement
+     * and result set resources.
      *
      * @param statement the prepared statement resource.
-     */
-    public void closeStatement(PreparedStatement statement) {
-        try {
-            if (statement != null && !statement.isClosed()) {
-                statement.close();
-            }
-        } catch (SQLException exc) {
-            logger.error("An unknown error occurred closing a statement: '" + exc.getMessage() + "'.");
-        }
-    }
-
-    /**
-     * A method releasing a result set resource.
-     *
      * @param resultSet the result set resource.
      */
-    public void closeResultSet(ResultSet resultSet) {
+    public void close(PreparedStatement statement, ResultSet resultSet) {
         try {
             if (resultSet != null && !resultSet.isClosed()) {
                 resultSet.close();
             }
-        } catch (SQLException exc) {
-            logger.error("An unknown error occurred closing a result set: '" + exc.getMessage() + "'.");
-        }
-    }
 
-    /**
-     * A method closing an open connection session.
-     */
-    public void close() {
-        try {
+            if (statement != null && !statement.isClosed()) {
+                statement.close();
+            }
+
             if (connection != null && !connection.isClosed()) {
                 connection.close();
             }
