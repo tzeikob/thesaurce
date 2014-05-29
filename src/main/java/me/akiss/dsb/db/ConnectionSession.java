@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import org.apache.log4j.Logger;
 
 /**
- * A database connection session.
+ * A data source connection session.
  *
  * @author Akis Papadopoulos, iakopap@gmail.com
  */
@@ -39,7 +39,7 @@ public class ConnectionSession {
         try {
             statement = connection.prepareStatement(query);
         } catch (SQLException exc) {
-            logger.error("An error occurred creating a prepared statement '" + exc.getMessage() + "'.");
+            logger.error("An unknown error occurred creating a statement: '" + exc.getMessage() + "'.");
         }
 
         return statement;
@@ -56,7 +56,7 @@ public class ConnectionSession {
                 statement.close();
             }
         } catch (SQLException exc) {
-            logger.error("An error occurred closing the statement '" + exc.getMessage() + "'.");
+            logger.error("An unknown error occurred closing  statement: '" + exc.getMessage() + "'.");
         }
     }
 
@@ -71,12 +71,12 @@ public class ConnectionSession {
                 resultSet.close();
             }
         } catch (SQLException exc) {
-            logger.error("An error occurred closing the result set '" + exc.getMessage() + "'.");
+            logger.error("An unknown error occurred closing a result set: '" + exc.getMessage() + "'.");
         }
     }
 
     /**
-     * A method releasing an open connection session.
+     * A method closing an open connection session.
      */
     public void close() {
         try {
@@ -84,7 +84,7 @@ public class ConnectionSession {
                 connection.close();
             }
         } catch (SQLException exc) {
-            logger.error("An error occured closing a connection session '" + exc.getMessage() + "'.");
+            logger.error("An unknown error occured closing a connection session: '" + exc.getMessage() + "'.");
         }
     }
 }
