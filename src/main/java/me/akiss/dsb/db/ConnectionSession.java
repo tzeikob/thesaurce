@@ -37,7 +37,11 @@ public class ConnectionSession {
         PreparedStatement statement = null;
 
         try {
-            statement = connection.prepareStatement(query);
+            if(!connection.isClosed()) {
+                statement = connection.prepareStatement(query);
+            } else {
+                logger.warn("Failed to create a statement from a closed connection session.");
+            }
         } catch (SQLException exc) {
             logger.error("An unknown error occurred creating a statement: '" + exc.getMessage() + "'.");
         }
@@ -80,7 +84,7 @@ public class ConnectionSession {
      */
     public void close() {
         try {
-            if (connection != null) {
+            if (connection != null && !connection.isClosed()) {
                 connection.close();
             }
         } catch (SQLException exc) {
