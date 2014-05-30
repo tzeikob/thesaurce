@@ -1,4 +1,4 @@
-package me.akiss.dsb.db;
+package me.akiss.dbb.db;
 
 import java.sql.SQLException;
 import javax.sql.DataSource;
