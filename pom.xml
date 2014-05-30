@@ -10,5 +10,6 @@
     
     <modules>
         <module>db-broker</module>
+        <module>secure-data-engine</module>
     </modules>
 </project>
