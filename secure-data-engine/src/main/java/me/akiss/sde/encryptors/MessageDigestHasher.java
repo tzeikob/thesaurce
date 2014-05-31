@@ -19,15 +19,21 @@ public class MessageDigestHasher implements DataEncryptor {
      * function based on the MD5 algorithm.
      *
      * @param data the data to be encrypted.
+     * @param salt the salt message to enforce security.
      * @return the digest encrypted data.
      */
     @Override
-    public String encrypt(String data) {
+    public String encrypt(String data, String salt) {
         String digest = null;
 
         try {
             // Building the encrypted digest message
             MessageDigest md = MessageDigest.getInstance("MD5");
+            
+            // Applying the salt message first
+            if (salt != null && !salt.isEmpty()) {
+                md.update(salt.getBytes());
+            }
 
             md.update(data.getBytes());
 

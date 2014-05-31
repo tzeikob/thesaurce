@@ -7,5 +7,5 @@ package me.akiss.sde.encryptors;
  */
 public interface DataEncryptor {
     
-    public String encrypt(String data);
+    public String encrypt(String data, String salt);
 }
