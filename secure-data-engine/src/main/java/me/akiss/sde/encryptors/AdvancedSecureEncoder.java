@@ -43,30 +43,30 @@ public class AdvancedSecureEncoder implements DataEncryptor {
     public String encrypt(String data, String salt) {
         String digest = null;
 
-        if (data != null && !data.isEmpty()) {
-            try {
-                char[] dataChars = data.toCharArray();
+        try {
+            char[] dataChars = data.toCharArray();
 
-                byte[] saltBytes = new byte[1];
+            byte[] saltBytes = new byte[1];
 
-                if (salt != null && !salt.isEmpty()) {
-                    saltBytes = salt.getBytes();
-                }
-
-                PBEKeySpec pbe = new PBEKeySpec(dataChars, saltBytes, iterations, 64 * 8);
-
-                SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-
-                byte[] hash = skf.generateSecret(pbe).getEncoded();
-
-                digest = iterations + ":" + toHex(saltBytes) + ":" + toHex(hash);
-            } catch (NoSuchAlgorithmException exc) {
-                logger.error("An error occurred loading encryption algorithm: '" + exc.getMessage() + "'.");
-            } catch (InvalidKeySpecException exc) {
-                logger.error("An error occurred loading an invalid key spec: '" + exc.getMessage() + "'.");
-            } catch (IllegalArgumentException exc) {
-                logger.error("An error occurred loading an invalid argument: '" + exc.getMessage() + "'.");
+            if (salt != null && !salt.isEmpty()) {
+                saltBytes = salt.getBytes();
             }
+
+            PBEKeySpec pbe = new PBEKeySpec(dataChars, saltBytes, iterations, 64 * 8);
+
+            SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+
+            byte[] hash = skf.generateSecret(pbe).getEncoded();
+
+            digest = iterations + ":" + toHex(saltBytes) + ":" + toHex(hash);
+        } catch (NullPointerException exc) {
+            logger.error("An error occurred encrypting null flavored data: '" + exc.getMessage() + "'.");
+        } catch (NoSuchAlgorithmException exc) {
+            logger.error("An error occurred loading encryption algorithm: '" + exc.getMessage() + "'.");
+        } catch (InvalidKeySpecException exc) {
+            logger.error("An error occurred loading an invalid key spec: '" + exc.getMessage() + "'.");
+        } catch (IllegalArgumentException exc) {
+            logger.error("An error occurred loading an invalid argument: '" + exc.getMessage() + "'.");
         }
 
         return digest;
