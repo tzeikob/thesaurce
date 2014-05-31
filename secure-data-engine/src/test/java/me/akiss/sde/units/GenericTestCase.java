@@ -2,6 +2,7 @@ package me.akiss.sde.units;
 
 import java.util.HashSet;
 import java.util.Set;
+import me.akiss.sde.encryptors.AdvancedSecureEncoder;
 import me.akiss.sde.encryptors.DataEncryptor;
 import me.akiss.sde.encryptors.MessageDigestHasher;
 import me.akiss.sde.salters.Salter;
@@ -48,6 +49,29 @@ public class GenericTestCase {
         String encryptedPassword = de.encrypt(password, salt);
 
         logger.info("Encryption[" + algo + "+]: '" + password + "[" + salt + "]':'" + encryptedPassword + "'");
+
+        String password2 = "password";
+
+        String encryptedPassword2 = de.encrypt(password2, salt);
+
+        assertTrue(encryptedPassword.equals(encryptedPassword2));
+    }
+    
+    @Test
+    public void testPBEEncryptionMethod() {
+        Salter salter = new SecureRandomGenerator();
+        
+        String salt = salter.spill();
+        
+        int iterations = 1000;
+        
+        DataEncryptor de = new AdvancedSecureEncoder(iterations);
+
+        String password = "password";
+
+        String encryptedPassword = de.encrypt(password, salt);
+
+        logger.info("Encryption[PBE+]: '" + password + "[" + salt + "]':'" + encryptedPassword + "'");
 
         String password2 = "password";
 
