@@ -31,8 +31,8 @@ public class MessageDigestHasher implements DataEncryptor {
      * function based on the MD5 algorithm.
      *
      * @param data the data to be encrypted.
-     * @param salt the salt message to enforce security.
-     * @return the digest encrypted data.
+     * @param salt the salt used to secure the encryption.
+     * @return the encrypted data.
      */
     @Override
     public String encrypt(String data, String salt) {
