@@ -35,17 +35,21 @@ public class GenericTestCase {
 
     @Test
     public void testMD5EncryptionMethod() {
+        Salter salter = new SecureRandomGenerator();
+        
+        String salt = salter.spill();
+        
         DataEncryptor de = new MessageDigestHasher();
 
         String password = "password";
 
-        String encryptedPassword = de.encrypt(password);
+        String encryptedPassword = de.encrypt(password, salt);
 
-        logger.info("Encryption[MD5]: '" + password + "':'" + encryptedPassword + "'");
+        logger.info("Encryption[MD5+]: '" + password + "[" + salt + "]':'" + encryptedPassword + "'");
 
         String password2 = "password";
 
-        String encryptedPassword2 = de.encrypt(password2);
+        String encryptedPassword2 = de.encrypt(password2, salt);
 
         assertTrue(encryptedPassword.equals(encryptedPassword2));
     }
