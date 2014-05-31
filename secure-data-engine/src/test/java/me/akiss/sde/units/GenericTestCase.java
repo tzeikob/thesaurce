@@ -39,13 +39,15 @@ public class GenericTestCase {
         
         String salt = salter.spill();
         
-        DataEncryptor de = new MessageDigestHasher();
+        String algo = "SHA-1";
+        
+        DataEncryptor de = new MessageDigestHasher(algo);
 
         String password = "password";
 
         String encryptedPassword = de.encrypt(password, salt);
 
-        logger.info("Encryption[MD5+]: '" + password + "[" + salt + "]':'" + encryptedPassword + "'");
+        logger.info("Encryption[" + algo + "+]: '" + password + "[" + salt + "]':'" + encryptedPassword + "'");
 
         String password2 = "password";
 
