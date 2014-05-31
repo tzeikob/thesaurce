@@ -10,8 +10,6 @@ public interface ConnectionManager {
     public void setMinIdle(int minIdle);
     
     public void setMaxIdle(int maxIdle);
-    
-    public void setMinActive(int minActive);
 
     public void setMaxActive(int maxActive);
 
