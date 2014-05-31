@@ -29,11 +29,11 @@ public class ConnectionPool implements ConnectionManager {
      * A constructor creating a poolable connection manager.
      *
      * @param jdbcDriver the JDBC driver to load.
-     * @param jdbcUrl the database URL to connect.
+     * @param url the database URL to connect.
      * @param username the database username.
      * @param password the database password.
      */
-    public ConnectionPool(String jdbcDriver, String jdbcUrl, String username, String password) {
+    public ConnectionPool(String jdbcDriver, String url, String username, String password) {
         try {
             // Loading the JDBC driver
             Class.forName(jdbcDriver);
@@ -46,15 +46,15 @@ public class ConnectionPool implements ConnectionManager {
             pool.setMaxActive(20);
 
             // Creating a poolable data source
-            ConnectionFactory cf = new DriverManagerConnectionFactory(jdbcUrl, username, password);
+            ConnectionFactory cf = new DriverManagerConnectionFactory(url, username, password);
 
             PoolableConnectionFactory pcf = new PoolableConnectionFactory(cf, pool, null, null, false, true);
 
             datasource = new PoolingDataSource(pool);
             
-            logger.info("Connection manager loaded successfully linked to database '" + jdbcUrl + "'.");
+            logger.info("Connection manager loaded successfully linked to database '" + url + "'.");
         } catch (ClassNotFoundException exc) {
-            logger.error("An error occurred loading the JDBC driver identified by '" + jdbcDriver + "'.");
+            logger.error("An error occurred loading the JDBC driver: '" + exc.getMessage() + "'.");
         } catch (Exception exc) {
             logger.error("An unknown error occurred setting up a connection manager: '" + exc.getMessage() + "'.");
         }
@@ -103,16 +103,39 @@ public class ConnectionPool implements ConnectionManager {
      */
     @Override
     public void reset() {
-        pool.clear();
+        if (pool != null && !pool.isClosed()) {
+            pool.clear();
+        }
+    }
+    
+    /**
+     * A method closing the connection manager.
+     */
+    @Override
+    public void close() {
+        if (pool != null && !pool.isClosed()) {
+            try {
+                pool.close();
+            } catch (Exception exc) {
+                logger.error("An unknown error occurred closing connection manager: '" + exc.getMessage() + "'.");
+            }
+        }
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("[ConnectionManager ")
-                .append("NIC: '").append(pool.getNumIdle()).append("', ")
-                .append("NAC: '").append(pool.getNumActive()).append("']");
+        sb.append("[ConnectionManager ");
+
+        if (pool != null) {
+            sb.append("NIC: '").append(pool.getNumIdle()).append("', ")
+              .append("NAC: '").append(pool.getNumActive()).append("'");
+        } else {
+            sb.append(" 'null'");
+        }
+
+        sb.append("]");
 
         return sb.toString();
     }

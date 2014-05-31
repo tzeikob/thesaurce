@@ -14,4 +14,6 @@ public interface ConnectionManager {
     public ConnectionSession getSession();
 
     public void reset();
+    
+    public void close();
 }
