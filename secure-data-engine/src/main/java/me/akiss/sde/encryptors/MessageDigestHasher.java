@@ -29,7 +29,7 @@ public class MessageDigestHasher implements DataEncryptor {
         try {
             // Building the encrypted digest message
             MessageDigest md = MessageDigest.getInstance("MD5");
-            
+
             // Applying the salt message first
             if (salt != null && !salt.isEmpty()) {
                 md.update(salt.getBytes());
@@ -39,13 +39,13 @@ public class MessageDigestHasher implements DataEncryptor {
 
             // Converting bytes to hexadecimal format
             byte[] bytes = md.digest();
-            
+
             StringBuilder sb = new StringBuilder();
 
             for (int i = 0; i < bytes.length; i++) {
                 sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
             }
-            
+
             digest = sb.toString();
         } catch (NoSuchAlgorithmException exc) {
             logger.error("An error occurred loading MD5 algorithm: '" + exc.getMessage() + "'.");
