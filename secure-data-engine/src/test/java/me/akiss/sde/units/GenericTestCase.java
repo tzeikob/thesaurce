@@ -35,7 +35,7 @@ public class GenericTestCase {
     }
 
     @Test
-    public void testMD5EncryptionMethod() {
+    public void testMessageDigestMethod() {
         Salter salter = new SecureRandomGenerator();
         
         String salt = salter.spill();
