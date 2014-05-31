@@ -13,6 +13,18 @@ public class MessageDigestHasher implements DataEncryptor {
 
     // Logger
     private static final Logger logger = Logger.getLogger(MessageDigestHasher.class);
+    
+    // Hashing algorithm
+    private String algorithm;
+
+    /**
+     * A constructor creating a hash data encryptor given the hash algorithm.
+     *
+     * @param algorithm the hash message digest algorithm.
+     */
+    public MessageDigestHasher(String algorithm) {
+        this.algorithm = algorithm;
+    }
 
     /**
      * A method returning the encrypted given data using the message digest hash
@@ -28,7 +40,7 @@ public class MessageDigestHasher implements DataEncryptor {
 
         try {
             // Building the encrypted digest message
-            MessageDigest md = MessageDigest.getInstance("MD5");
+            MessageDigest md = MessageDigest.getInstance(algorithm);
 
             // Applying the salt message first
             if (salt != null && !salt.isEmpty()) {
@@ -48,7 +60,7 @@ public class MessageDigestHasher implements DataEncryptor {
 
             digest = sb.toString();
         } catch (NoSuchAlgorithmException exc) {
-            logger.error("An error occurred loading MD5 algorithm: '" + exc.getMessage() + "'.");
+            logger.error("An error occurred loading hashing algorithm: '" + exc.getMessage() + "'.");
         }
 
         return digest;
