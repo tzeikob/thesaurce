@@ -7,9 +7,13 @@ package me.akiss.dbb.db;
  */
 public interface ConnectionManager {
 
-    public void setMinIdleConnections(int minIdleConnections);
+    public void setMinIdle(int minIdle);
+    
+    public void setMaxIdle(int maxIdle);
+    
+    public void setMinActive(int minActive);
 
-    public void setMaxActiveConnections(int maxActiveConnections);
+    public void setMaxActive(int maxActive);
 
     public ConnectionSession getSession();
 
