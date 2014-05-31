@@ -3,7 +3,7 @@ package me.akiss.sde.units;
 import java.util.HashSet;
 import java.util.Set;
 import me.akiss.sde.salters.Salter;
-import me.akiss.sde.salters.SecureRandomSalter;
+import me.akiss.sde.salters.SecureRandomGenerator;
 import org.apache.log4j.Logger;
 import static org.junit.Assert.*;
 import org.junit.Test;
@@ -20,7 +20,7 @@ public class GenericTestCase {
     
     @Test
     public void testSpill() {
-        Salter salter = new SecureRandomSalter();
+        Salter salter = new SecureRandomGenerator();
         
         Set<String> salts = new HashSet<>();
         

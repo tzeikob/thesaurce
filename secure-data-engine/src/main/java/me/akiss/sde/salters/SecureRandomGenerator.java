@@ -5,14 +5,14 @@ import java.security.SecureRandom;
 import org.apache.log4j.Logger;
 
 /**
- * A secure random salter implementation.
+ * A secure random salter implementation using the SHA algorithm.
  *
  * @author Akis Papadopoulos, iakopap@gmail.com
  */
-public class SecureRandomSalter implements Salter {
+public class SecureRandomGenerator implements Salter {
 
     // Logger
-    private static final Logger logger = Logger.getLogger(SecureRandomSalter.class);
+    private static final Logger logger = Logger.getLogger(SecureRandomGenerator.class);
 
     /**
      * A method returning random salt using the SHA1PRNG algorithm a
