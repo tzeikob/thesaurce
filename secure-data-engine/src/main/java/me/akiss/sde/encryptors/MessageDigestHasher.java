@@ -59,6 +59,8 @@ public class MessageDigestHasher implements DataEncryptor {
             }
 
             digest = sb.toString();
+        } catch (NullPointerException exc) {
+            logger.error("An error occurred encrypting null flavored data: '" + exc.getMessage() + "'.");
         } catch (NoSuchAlgorithmException exc) {
             logger.error("An error occurred loading hashing algorithm: '" + exc.getMessage() + "'.");
         }
