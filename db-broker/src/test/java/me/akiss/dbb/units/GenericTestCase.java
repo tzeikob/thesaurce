@@ -37,7 +37,7 @@ public class GenericTestCase {
         List<ConnectionSession> sessions = new ArrayList<>();
         
         cm.setMinIdle(10);
-        cm.setMaxActive(20);
+        cm.setMaxActive(21);
         
         for (int i = 0; i < 20; i++) {
             ConnectionSession session = cm.getSession();
