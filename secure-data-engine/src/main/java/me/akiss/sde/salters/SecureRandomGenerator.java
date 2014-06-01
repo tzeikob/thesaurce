@@ -34,7 +34,7 @@ public class SecureRandomGenerator implements Salter {
 
             salt = bytes.toString();
         } catch (NoSuchAlgorithmException exc) {
-            logger.error("An error occurred loading secure random algorithm: '" + exc.getMessage() + "'.");
+            logger.error("An error occurred loading the secure random algorithm: '" + exc.getMessage() + "'.");
         }
 
         return salt;

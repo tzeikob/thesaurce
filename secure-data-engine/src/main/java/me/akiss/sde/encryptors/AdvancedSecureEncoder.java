@@ -60,9 +60,9 @@ public class AdvancedSecureEncoder implements DataEncryptor {
 
             digest = iterations + ":" + toHex(saltBytes) + ":" + toHex(hash);
         } catch (NullPointerException exc) {
-            logger.error("An error occurred encrypting null flavored data: '" + exc.getMessage() + "'.");
+            logger.error("A null flavored error occurred encrypting data: '" + data + "'.");
         } catch (NoSuchAlgorithmException exc) {
-            logger.error("An error occurred loading encryption algorithm: '" + exc.getMessage() + "'.");
+            logger.error("An error occurred loading the encryption algorithm: '" + exc.getMessage() + "'.");
         } catch (InvalidKeySpecException exc) {
             logger.error("An error occurred loading an invalid key spec: '" + exc.getMessage() + "'.");
         } catch (IllegalArgumentException exc) {
