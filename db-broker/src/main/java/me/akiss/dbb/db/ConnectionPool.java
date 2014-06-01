@@ -1,6 +1,5 @@
 package me.akiss.dbb.db;
 
-import java.sql.SQLException;
 import javax.sql.DataSource;
 import org.apache.commons.dbcp.ConnectionFactory;
 import org.apache.commons.dbcp.DriverManagerConnectionFactory;
@@ -41,7 +40,7 @@ public class ConnectionPool implements ConnectionManager {
             // Creating a pool of connections
             pool = new GenericObjectPool(null);
 
-            // Setting min/max number of idle/active connections
+            // Setting minimum number of idle connections
             pool.setMinIdle(10);
             pool.setMaxActive(20);
 
@@ -63,21 +62,31 @@ public class ConnectionPool implements ConnectionManager {
     /**
      * A method setting up the number of minimum idle connections.
      *
-     * @param minIdleConnections the number of minimum idle connections.
+     * @param minIdle the number of minimum idle connections.
      */
     @Override
-    public void setMinIdleConnections(int minIdleConnections) {
-        pool.setMinIdle(minIdleConnections);
+    public void setMinIdle(int minIdle) {
+        pool.setMinIdle(minIdle);
+    }
+    
+    /**
+     * A method setting up the number of maximum idle connections.
+     *
+     * @param maxIdle the number of maximum idle connections.
+     */
+    @Override
+    public void setMaxIdle(int maxIdle) {
+        pool.setMaxIdle(maxIdle);
     }
 
     /**
      * A method setting up the number of maximum active connections.
      *
-     * @param maxActiveConnections the number of maximum active connections.
+     * @param maxActive the number of maximum active connections.
      */
     @Override
-    public void setMaxActiveConnections(int maxActiveConnections) {
-        pool.setMaxActive(maxActiveConnections);
+    public void setMaxActive(int maxActive) {
+        pool.setMaxActive(maxActive);
     }
 
     /**
@@ -91,7 +100,7 @@ public class ConnectionPool implements ConnectionManager {
 
         try {
             session = new ConnectionSession(datasource.getConnection());
-        } catch (SQLException exc) {
+        } catch (Exception exc) {
             logger.error("An unknown error occurred getting a new connection session: '" + exc.getMessage() + "'.");
         }
 
