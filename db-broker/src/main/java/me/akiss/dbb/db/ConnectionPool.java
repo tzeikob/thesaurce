@@ -1,5 +1,6 @@
 package me.akiss.dbb.db;
 
+import java.sql.SQLException;
 import javax.sql.DataSource;
 import org.apache.commons.dbcp.ConnectionFactory;
 import org.apache.commons.dbcp.DriverManagerConnectionFactory;
@@ -100,6 +101,10 @@ public class ConnectionPool implements ConnectionManager {
 
         try {
             session = new ConnectionSession(datasource.getConnection());
+        } catch (SQLException exc) {
+            logger.error("An SQL error occurred getting a new connection session: '" + exc.getMessage() + "'.");
+        } catch (NullPointerException exc) {
+            logger.error("An error occurred getting a new connection session from an null flavored connection manager: '" + exc.getMessage() + "'.");
         } catch (Exception exc) {
             logger.error("An unknown error occurred getting a new connection session: '" + exc.getMessage() + "'.");
         }

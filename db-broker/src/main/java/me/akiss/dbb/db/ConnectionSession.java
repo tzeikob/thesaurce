@@ -37,12 +37,12 @@ public class ConnectionSession {
         PreparedStatement statement = null;
 
         try {
-            if(!connection.isClosed()) {
-                statement = connection.prepareStatement(query);
-            } else {
-                logger.warn("Failed to create a statement from a closed connection session.");
-            }
+            statement = connection.prepareStatement(query);
         } catch (SQLException exc) {
+            logger.error("An SQL error occurred creating a statement: '" + exc.getMessage() + "'.");
+        } catch (NullPointerException exc) {
+            logger.error("An error occurred creating a statement using a null flavored connection: '" + exc.getMessage() + "'.");
+        } catch (Exception exc) {
             logger.error("An unknown error occurred creating a statement: '" + exc.getMessage() + "'.");
         }
 
@@ -70,6 +70,8 @@ public class ConnectionSession {
                 connection.close();
             }
         } catch (SQLException exc) {
+            logger.error("An SQL error occured closing a connection session: '" + exc.getMessage() + "'.");
+        } catch (Exception exc) {
             logger.error("An unknown error occured closing a connection session: '" + exc.getMessage() + "'.");
         }
     }
@@ -85,6 +87,10 @@ public class ConnectionSession {
         try {
             closed =  connection.isClosed();
         } catch (SQLException exc) {
+            logger.error("An SQL error occured checking if a connection session is closed: '" + exc.getMessage() + "'.");
+        } catch (NullPointerException exc) {
+            logger.error("An error occured checking if a null flavored connection session is closed: '" + exc.getMessage() + "'.");
+        } catch (Exception exc) {
             logger.error("An unknown error occured checking if a connection session is closed: '" + exc.getMessage() + "'.");
         }
         
