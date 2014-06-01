@@ -36,8 +36,8 @@ public class GenericTestCase {
     public void testMultipleConnections() {
         List<ConnectionSession> sessions = new ArrayList<>();
         
-        cm.setMinIdleConnections(10);
-        cm.setMaxActiveConnections(21);
+        cm.setMinIdle(10);
+        cm.setMaxActive(20);
         
         for (int i = 0; i < 20; i++) {
             ConnectionSession session = cm.getSession();
