@@ -25,7 +25,7 @@ public class GenericTestCase {
     public void testSpill() {
         Salter salter = new SecureRandomGenerator();
 
-        Set<String> salts = new HashSet<>();
+        Set<String> salts = new HashSet<String>();
 
         for (int i = 0; i < 10000; i++) {
             salts.add(salter.spill());
