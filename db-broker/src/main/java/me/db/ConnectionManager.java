@@ -1,4 +1,4 @@
-package me.akiss.dbb.db;
+package me.db;
 
 /**
  * An abstract data source connection manager.

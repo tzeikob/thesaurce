@@ -1,13 +1,13 @@
-package me.akiss.dbb.units;
+package me.units;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import me.akiss.dbb.db.ConnectionManager;
-import me.akiss.dbb.db.ConnectionPool;
-import me.akiss.dbb.db.ConnectionSession;
+import me.db.ConnectionManager;
+import me.db.ConnectionPool;
+import me.db.ConnectionSession;
 import org.apache.log4j.Logger;
 import static org.junit.Assert.*;
 import org.junit.Test;
