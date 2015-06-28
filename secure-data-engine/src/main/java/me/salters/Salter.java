@@ -1,4 +1,4 @@
-package me.akiss.sde.salters;
+package me.salters;
 
 /**
  * A generic salting interface.

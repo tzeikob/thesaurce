@@ -1,12 +1,12 @@
-package me.akiss.sde.units;
+package me.units;
 
 import java.util.HashSet;
 import java.util.Set;
-import me.akiss.sde.encryptors.AdvancedSecureEncoder;
-import me.akiss.sde.encryptors.DataEncryptor;
-import me.akiss.sde.encryptors.MessageDigestHasher;
-import me.akiss.sde.salters.Salter;
-import me.akiss.sde.salters.SecureRandomGenerator;
+import me.encryptors.AdvancedSecureEncoder;
+import me.encryptors.DataEncryptor;
+import me.encryptors.MessageDigestHasher;
+import me.salters.Salter;
+import me.salters.SecureRandomGenerator;
 import org.apache.log4j.Logger;
 import static org.junit.Assert.*;
 import org.junit.Test;

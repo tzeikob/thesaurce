@@ -1,4 +1,4 @@
-package me.akiss.sde.encryptors;
+package me.encryptors;
 
 import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;

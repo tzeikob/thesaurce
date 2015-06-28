@@ -1,4 +1,4 @@
-package me.akiss.sde.encryptors;
+package me.encryptors;
 
 /**
  * A generic data encryptor interface.

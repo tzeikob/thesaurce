@@ -1,4 +1,4 @@
-package me.akiss.sde.encryptors;
+package me.encryptors;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

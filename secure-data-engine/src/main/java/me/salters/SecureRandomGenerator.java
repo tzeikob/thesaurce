@@ -1,4 +1,4 @@
-package me.akiss.sde.salters;
+package me.salters;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
