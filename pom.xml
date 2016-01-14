@@ -7,13 +7,23 @@
     <url>https://bitbucket.org/tz3ik/restables</url>
     <version>1.0</version>
     <packaging>pom</packaging>
-
+    
     <properties>
         <encoding>UTF-8</encoding>
         <jdk.version>1.7</jdk.version>
     </properties>
     
+    <modules>
+        <module>utils</module>
+    </modules>
+    
     <dependencies>
+        <dependency>
+            <groupId>com.github.kevinsawicki</groupId>
+            <artifactId>http-request</artifactId>
+            <version>6.0</version>
+        </dependency>
+        
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
