@@ -15,7 +15,8 @@
     
     <modules>
         <module>rest-utils</module>
-        <module>flicker</module>
+        <module>rest-flicker</module>
+        <module>rest-fivepix</module>
     </modules>
     
     <dependencies>
