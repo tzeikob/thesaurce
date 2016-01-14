@@ -1,6 +1,6 @@
-package me.restables.impl;
+package me.rest.utils.impl;
 
-import me.restables.utils.model.PhotoItemPage;
+import me.rest.utils.model.PhotoItemPage;
 
 /**
  * An abstract implementation in order to extract a result page of photo items

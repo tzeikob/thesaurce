@@ -1,4 +1,4 @@
-package me.restables.utils.model;
+package me.rest.utils.model;
 
 /**
  * A photo item encapsulating various textual metadata.
