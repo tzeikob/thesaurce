@@ -88,7 +88,7 @@ public class PhotoSearchService implements PhotoItemExtractor {
         params.put("page", String.valueOf(page));
 
         // Sending the request
-        result = HttpRequest.get(serviceURL, params, true).accept("application/json").body();
+        result = HttpRequest.get(serviceURL + "/v1/photos/search?", params, true).accept("application/json").body();
 
         return result;
     }
