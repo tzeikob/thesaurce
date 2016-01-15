@@ -1,10 +1,10 @@
-package me.rest.fivepix.units;
+package me.rest.flicker.units;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
-import me.rest.fivepix.endpoints.PhotoSearchService;
+import me.rest.flicker.endpoints.PhotosSearchService;
 import me.rest.utils.model.PhotoItem;
 import me.rest.utils.model.PhotoItemPage;
 import static org.junit.Assert.assertTrue;
@@ -20,13 +20,13 @@ public class GenericTest {
 
     private static final Logger logger = Logger.getLogger(GenericTest.class);
 
-    private static final String serviceURL = "https://api.500px.com";
+    private static final String serviceURL = "https://api.flickr.com/services/rest/?";
 
-    private static final String consumerKey = "d7NkZlpxGAO1VHlhsJGhC2V8qYT7JPkKpPh5w5IO";
+    private static final String apiKey = "1a6b6b1013dbb8c633c3135103c4ad78";
 
     @Test
-    public void testPhotoSearchService() throws Exception {
-        PhotoSearchService endpoint = new PhotoSearchService(serviceURL, consumerKey, 30, false);
+    public void testPhotosSearchService() throws Exception {
+        PhotosSearchService endpoint = new PhotosSearchService(serviceURL, apiKey, 30, false);
 
         String result = endpoint.search("athens acropolis parthenon", 37.9780914, 23.7368875, 0.3, 1);
 
@@ -40,10 +40,10 @@ public class GenericTest {
         BufferedWriter writer = null;
 
         try {
-            writer = new BufferedWriter(new FileWriter("/tmp/500px-result.html"));
+            writer = new BufferedWriter(new FileWriter("/tmp/flickr-result.html"));
             StringBuilder context = new StringBuilder();
 
-            context.append("<!DOCTYPE html><html><head>500px Results</head><body><ol>");
+            context.append("<!DOCTYPE html><html><head>Flickr Results</head><body><ol>");
 
             for (PhotoItem photo : page.getPhotos()) {
                 context.append("<li>")
