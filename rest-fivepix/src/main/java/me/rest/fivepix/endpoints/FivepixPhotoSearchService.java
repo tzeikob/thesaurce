@@ -21,7 +21,7 @@ import me.rest.utils.model.PhotoItemPage;
  *
  * @author Akis papadopoulos
  */
-public class Five00pxPhotoSearchService implements PhotoItemExtractor {
+public class FivepixPhotoSearchService implements PhotoItemExtractor {
 
     // Service URL
     private String serviceURL;
@@ -44,7 +44,7 @@ public class Five00pxPhotoSearchService implements PhotoItemExtractor {
      * @param pageSize the number of items per page.
      * @param shuffle true to shuffle the items order otherwise false.
      */
-    public Five00pxPhotoSearchService(String serviceURL, String consumerKey, int pageSize, boolean shuffle) {
+    public FivepixPhotoSearchService(String serviceURL, String consumerKey, int pageSize, boolean shuffle) {
         this.serviceURL = serviceURL;
         this.consumerKey = consumerKey;
         this.pageSize = pageSize;

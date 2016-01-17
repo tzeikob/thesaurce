@@ -4,7 +4,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
-import me.rest.flicker.endpoints.FlickrPhotoSearchService;
+import me.rest.flicker.endpoints.FlickerPhotoSearchService;
 import me.rest.utils.model.InterestPoint;
 import me.rest.utils.model.PhotoItem;
 import me.rest.utils.model.PhotoItemPage;
@@ -27,7 +27,7 @@ public class GenericTest {
 
     @Test
     public void testPhotosSearchService() throws Exception {
-        FlickrPhotoSearchService endpoint = new FlickrPhotoSearchService(serviceURL, apiKey, 30, false);
+        FlickerPhotoSearchService endpoint = new FlickerPhotoSearchService(serviceURL, apiKey, 30, false);
 
         String result = endpoint.search("athens acropolis parthenon", new InterestPoint(37.9780914, 23.7368875, 0.3), 1);
 

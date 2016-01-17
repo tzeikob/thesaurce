@@ -21,7 +21,7 @@ import me.rest.utils.model.PhotoItemPage;
  *
  * @author Akis papadopoulos
  */
-public class FlickrPhotoSearchService implements PhotoItemExtractor {
+public class FlickerPhotoSearchService implements PhotoItemExtractor {
 
     // Service URL
     private String serviceURL;
@@ -44,7 +44,7 @@ public class FlickrPhotoSearchService implements PhotoItemExtractor {
      * @param pageSize the number of items per page.
      * @param shuffle true to shuffle the items order otherwise false.
      */
-    public FlickrPhotoSearchService(String serviceURL, String apiKey, int pageSize, boolean shuffle) {
+    public FlickerPhotoSearchService(String serviceURL, String apiKey, int pageSize, boolean shuffle) {
         this.serviceURL = serviceURL;
         this.apiKey = apiKey;
         this.pageSize = pageSize;
