@@ -1,4 +1,4 @@
-package me.rest.flicker.endpoints;
+package me.rest.fivepix.endpoints;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,18 +15,18 @@ import me.rest.utils.model.PhotoItem;
 import me.rest.utils.model.PhotoItemPage;
 
 /**
- * A photo web service consumer implementation using the Flickr search photo API
+ * A photo web service consumer implementation using the 500px search photo API
  * fetching photo items regarding both textual and geospatial parameters.
  *
  * @author Akis papadopoulos
  */
-public class PhotosSearchService implements PhotoItemExtractor {
+public class Five00pxPhotoSearchService implements PhotoItemExtractor {
 
     // Service URL
     private String serviceURL;
 
-    // Service API key
-    private String apiKey;
+    // Service consumer key
+    private String consumerKey;
 
     // Number of items per page
     protected int pageSize = 20;
@@ -35,17 +35,17 @@ public class PhotosSearchService implements PhotoItemExtractor {
     protected boolean shuffle = false;
 
     /**
-     * A constructor initiating a Flickr photo consumer given the service
+     * A constructor initiating a 500px photo consumer given the service
      * credentials.
      *
      * @param serviceURL the service URL.
-     * @param apiKey the API token.
+     * @param consumerKey the consumer key.
      * @param pageSize the number of items per page.
      * @param shuffle true to shuffle the items order otherwise false.
      */
-    public PhotosSearchService(String serviceURL, String apiKey, int pageSize, boolean shuffle) {
+    public Five00pxPhotoSearchService(String serviceURL, String consumerKey, int pageSize, boolean shuffle) {
         this.serviceURL = serviceURL;
-        this.apiKey = apiKey;
+        this.consumerKey = consumerKey;
         this.pageSize = pageSize;
         this.shuffle = shuffle;
     }
@@ -66,36 +66,29 @@ public class PhotosSearchService implements PhotoItemExtractor {
 
         // Adding the request parameters
         Map<String, String> params = new HashMap<String, String>();
-        params.put("method", "flickr.photos.search");
-        params.put("api_key", apiKey);
-        params.put("format", "json");
-        params.put("nojsoncallback", "1");
-        params.put("media", "photos");
+        params.put("consumer_key", consumerKey);
 
-        // Settign optional text
+        // Setting optional text
         if (text != null) {
-            params.put("text", text);
+            params.put("term", text);
         }
 
         // Setting optional geospatial
         if (latitude != null && longitude != null) {
-            params.put("has_geo", "1");
-            params.put("lat", String.valueOf(latitude));
-            params.put("lon", String.valueOf(longitude));
-
             if (radius != null) {
-                params.put("radius", String.valueOf(radius));
+                params.put("geo", latitude + "," + longitude + "," + radius + "km");
+            } else {
+                params.put("geo", latitude + "," + longitude + ",1km");
             }
         }
 
-        params.put("sort", "relevance");
-        params.put("safe_search", "1");
-        params.put("extras", "owner_name,url_q,url_m,url_n,geo,count_faves");
-        params.put("per_page", String.valueOf(pageSize));
+        params.put("image_size", "30,200");
+        params.put("sort", "_score");
+        params.put("rpp", String.valueOf(pageSize));
         params.put("page", String.valueOf(page));
 
         // Sending the request
-        result = HttpRequest.get(serviceURL, params, true).accept("application/json").body();
+        result = HttpRequest.get(serviceURL + "/v1/photos/search?", params, true).accept("application/json").body();
 
         return result;
     }
@@ -112,16 +105,15 @@ public class PhotosSearchService implements PhotoItemExtractor {
     public PhotoItemPage extract(String json) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode rootNode = mapper.readTree(json);
-        JsonNode photosNode = rootNode.path("photos");
 
         // Extracting page related information
-        int page = photosNode.path("page").asInt();
-        int pages = photosNode.path("pages").asInt();
-        int count = photosNode.path("total").asInt();
+        int page = rootNode.path("current_page").asInt();
+        int pages = rootNode.path("total_pages").asInt();
+        int count = rootNode.path("total_items").asInt();
 
         // Extracting the photo items
-        JsonNode photoNode = photosNode.path("photo");
-        Iterator<JsonNode> items = photoNode.elements();
+        JsonNode photosNode = rootNode.path("photos");
+        Iterator<JsonNode> items = photosNode.elements();
 
         List<PhotoItem> photos = new ArrayList<PhotoItem>();
 
@@ -130,42 +122,21 @@ public class PhotosSearchService implements PhotoItemExtractor {
 
             PhotoItem photo = new PhotoItem();
 
-            String photoId = item.path("id").asText();
-            photo.setId(photoId);
-
-            photo.setOwner(item.path("ownername").asText());
-            photo.setTitle(item.path("title").asText());
-            photo.setHits(item.path("count_faves").asInt());
+            photo.setId(item.path("id").asText());
+            photo.setTitle(item.path("name").asText());
+            photo.setHits(item.path("votes_count").asInt());
 
             photo.setLatitude(item.path("latitude").asDouble());
             photo.setLongitude(item.path("longitude").asDouble());
 
-            // Setting the first available URL otherwise null or empty
-            String thumbnailUrl = item.path("url_n").asText();
-            int width = item.path("width_n").asInt();
-            int height = item.path("height_n").asInt();
+            String imageURL = item.path("image_url").asText();
+            photo.setThumbnailUrl(imageURL);
 
-            if (thumbnailUrl == null || thumbnailUrl.isEmpty()) {
-                thumbnailUrl = item.path("url_m").asText();
-                width = item.path("width_m").asInt();
-                height = item.path("height_m").asInt();
+            photo.setPhotoUrl("https://500px.com" + item.path("url").asText());
 
-                if (thumbnailUrl == null || thumbnailUrl.isEmpty()) {
-                    thumbnailUrl = item.path("url_q").asText();
-                    width = item.path("width_q").asInt();
-                    height = item.path("height_q").asInt();
-                }
-            }
-
-            photo.setThumbnailUrl(thumbnailUrl);
-            photo.setWidth(width);
-            photo.setHeight(height);
-
-            String userId = item.path("owner").asText();
-            photo.setPhotoUrl("https://www.flickr.com/photos/" + userId + "/" + photoId);
-            photo.setProfileUrl("https://www.flickr.com/photos/" + userId);
-
-            photo.setProvider("flickr");
+            JsonNode userNode = item.path("user");
+            photo.setOwner(userNode.path("fullname").asText());
+            photo.setProfileUrl("https://500px.com/" + userNode.path("username").asText());
 
             photos.add(photo);
         }
@@ -175,6 +146,6 @@ public class PhotosSearchService implements PhotoItemExtractor {
             Collections.shuffle(photos, new Random());
         }
 
-        return new PhotoItemPage(page, pages, count, photos);
+        return new PhotoItemPage(page, pages, count, photos, "500px");
     }
 }

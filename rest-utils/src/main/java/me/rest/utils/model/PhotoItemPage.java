@@ -21,6 +21,9 @@ public class PhotoItemPage {
 
     // Photo item list
     private List<PhotoItem> photos;
+    
+    // Service provider origin
+    private String origin;
 
     /**
      * A constructor initiates a result page given both page information and the
@@ -30,12 +33,14 @@ public class PhotoItemPage {
      * @param pages the total number of the pages.
      * @param total the total number of items.
      * @param photos the list of photo items.
+     * @param origin the origin of the service providing the photo items.
      */
-    public PhotoItemPage(int page, int pages, int total, List<PhotoItem> photos) {
+    public PhotoItemPage(int page, int pages, int total, List<PhotoItem> photos, String origin) {
         this.page = page;
         this.pages = pages;
         this.total = total;
         this.photos = photos;
+        this.origin = origin;
     }
 
     public int getPage() {
@@ -68,5 +73,13 @@ public class PhotoItemPage {
 
     public void setPhotos(List<PhotoItem> photos) {
         this.photos = photos;
+    }
+
+    public String getOrigin() {
+        return origin;
+    }
+
+    public void setOrigin(String origin) {
+        this.origin = origin;
     }
 }

@@ -4,7 +4,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
-import me.rest.fivepix.endpoints.PhotoSearchService;
+import me.rest.fivepix.endpoints.Five00pxPhotoSearchService;
 import me.rest.utils.model.PhotoItem;
 import me.rest.utils.model.PhotoItemPage;
 import static org.junit.Assert.assertTrue;
@@ -26,7 +26,7 @@ public class GenericTest {
 
     @Test
     public void testPhotoSearchService() throws Exception {
-        PhotoSearchService endpoint = new PhotoSearchService(serviceURL, consumerKey, 30, false);
+        Five00pxPhotoSearchService endpoint = new Five00pxPhotoSearchService(serviceURL, consumerKey, 30, false);
 
         String result = endpoint.search("athens acropolis parthenon", 37.9780914, 23.7368875, 0.3, 1);
 

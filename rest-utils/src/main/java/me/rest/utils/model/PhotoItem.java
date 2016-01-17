@@ -40,9 +40,6 @@ public class PhotoItem {
     // Owner's profile URL path
     private String profileUrl;
 
-    // Photo service provider
-    private String provider;
-
     public String getId() {
         return id;
     }
@@ -129,13 +126,5 @@ public class PhotoItem {
 
     public void setProfileUrl(String profileUrl) {
         this.profileUrl = profileUrl;
-    }
-
-    public String getProvider() {
-        return provider;
-    }
-
-    public void setProvider(String provider) {
-        this.provider = provider;
     }
 }
