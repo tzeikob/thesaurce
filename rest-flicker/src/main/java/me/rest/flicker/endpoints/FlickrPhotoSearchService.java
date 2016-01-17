@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import me.rest.utils.impl.PhotoItemExtractor;
+import me.rest.utils.model.InterestPoint;
 import me.rest.utils.model.PhotoItem;
 import me.rest.utils.model.PhotoItemPage;
 
@@ -54,14 +55,12 @@ public class FlickrPhotoSearchService implements PhotoItemExtractor {
      * A method sending a search request given various query parameters.
      *
      * @param text the optional text to search about.
-     * @param latitude the optional latitude cords of the point of interest.
-     * @param longitude the optional longitude cords of the point of interest.
-     * @param radius the optional radius around the point of interest in km.
+     * @param location the geo-spatial point of interest.
      * @param page the number of result page.
      * @return a JSON raw text of the response.
      * @throws Exception throws unknown error exceptions.
      */
-    public String search(String text, Double latitude, Double longitude, Double radius, int page) throws Exception {
+    public String search(String text, InterestPoint location, int page) throws Exception {
         String result = null;
 
         // Adding the request parameters
@@ -72,20 +71,17 @@ public class FlickrPhotoSearchService implements PhotoItemExtractor {
         params.put("nojsoncallback", "1");
         params.put("media", "photos");
 
-        // Settign optional text
+        // Settign optional text parameter
         if (text != null) {
             params.put("text", text);
         }
 
-        // Setting optional geospatial
-        if (latitude != null && longitude != null) {
+        // Setting optional geo-spatial parameter
+        if (location != null) {
             params.put("has_geo", "1");
-            params.put("lat", String.valueOf(latitude));
-            params.put("lon", String.valueOf(longitude));
-
-            if (radius != null) {
-                params.put("radius", String.valueOf(radius));
-            }
+            params.put("lat", String.valueOf(location.getLatitude()));
+            params.put("lon", String.valueOf(location.getLongitude()));
+            params.put("radius", String.valueOf(location.getRadius()));
         }
 
         params.put("sort", "relevance");

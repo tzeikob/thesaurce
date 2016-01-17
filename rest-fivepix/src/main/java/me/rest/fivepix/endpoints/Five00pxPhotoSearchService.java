@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import me.rest.utils.impl.PhotoItemExtractor;
+import me.rest.utils.model.InterestPoint;
 import me.rest.utils.model.PhotoItem;
 import me.rest.utils.model.PhotoItemPage;
 
@@ -54,32 +55,29 @@ public class Five00pxPhotoSearchService implements PhotoItemExtractor {
      * A method sending a search request given various query parameters.
      *
      * @param text the optional text to search about.
-     * @param latitude the optional latitude cords of the point of interest.
-     * @param longitude the optional longitude cords of the point of interest.
-     * @param radius the optional radius around the point of interest in km.
      * @param page the number of result page.
      * @return a JSON raw text of the response.
      * @throws Exception throws unknown error exceptions.
      */
-    public String search(String text, Double latitude, Double longitude, Double radius, int page) throws Exception {
+    public String search(String text, InterestPoint location, int page) throws Exception {
         String result = null;
 
         // Adding the request parameters
         Map<String, String> params = new HashMap<String, String>();
         params.put("consumer_key", consumerKey);
 
-        // Setting optional text
+        // Setting optional text parameter
         if (text != null) {
             params.put("term", text);
         }
 
-        // Setting optional geospatial
-        if (latitude != null && longitude != null) {
-            if (radius != null) {
-                params.put("geo", latitude + "," + longitude + "," + radius + "km");
-            } else {
-                params.put("geo", latitude + "," + longitude + ",1km");
-            }
+        // Setting optional geo-spatial parameters
+        if (location != null) {
+            double lat = location.getLatitude();
+            double lon = location.getLongitude();
+            double radius = location.getRadius();
+            
+            params.put("geo", lat + "," + lon + "," + radius + "km");
         }
 
         params.put("image_size", "30,200");

@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import me.rest.fivepix.endpoints.Five00pxPhotoSearchService;
+import me.rest.utils.model.InterestPoint;
 import me.rest.utils.model.PhotoItem;
 import me.rest.utils.model.PhotoItemPage;
 import static org.junit.Assert.assertTrue;
@@ -28,7 +29,7 @@ public class GenericTest {
     public void testPhotoSearchService() throws Exception {
         Five00pxPhotoSearchService endpoint = new Five00pxPhotoSearchService(serviceURL, consumerKey, 30, false);
 
-        String result = endpoint.search("athens acropolis parthenon", 37.9780914, 23.7368875, 0.3, 1);
+        String result = endpoint.search("athens acropolis parthenon", new InterestPoint(37.9780914, 23.7368875, 0.3), 1);
 
         PhotoItemPage page = endpoint.extract(result);
 
