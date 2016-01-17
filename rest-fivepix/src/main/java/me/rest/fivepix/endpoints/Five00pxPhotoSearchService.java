@@ -137,6 +137,8 @@ public class Five00pxPhotoSearchService implements PhotoItemExtractor {
             JsonNode userNode = item.path("user");
             photo.setOwner(userNode.path("fullname").asText());
             photo.setProfileUrl("https://500px.com/" + userNode.path("username").asText());
+            
+            photo.setOrigin("500px");
 
             photos.add(photo);
         }
@@ -146,6 +148,6 @@ public class Five00pxPhotoSearchService implements PhotoItemExtractor {
             Collections.shuffle(photos, new Random());
         }
 
-        return new PhotoItemPage(page, pages, count, photos, "500px");
+        return new PhotoItemPage(page, pages, count, photos);
     }
 }

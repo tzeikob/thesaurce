@@ -39,6 +39,9 @@ public class PhotoItem {
     
     // Owner's profile URL path
     private String profileUrl;
+    
+    // Provider's origin name
+    private String origin;
 
     public String getId() {
         return id;
@@ -126,5 +129,13 @@ public class PhotoItem {
 
     public void setProfileUrl(String profileUrl) {
         this.profileUrl = profileUrl;
+    }
+
+    public String getOrigin() {
+        return origin;
+    }
+
+    public void setOrigin(String origin) {
+        this.origin = origin;
     }
 }

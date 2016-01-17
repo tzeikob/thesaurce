@@ -164,6 +164,8 @@ public class FlickrPhotoSearchService implements PhotoItemExtractor {
             String userId = item.path("owner").asText();
             photo.setPhotoUrl("https://www.flickr.com/photos/" + userId + "/" + photoId);
             photo.setProfileUrl("https://www.flickr.com/photos/" + userId);
+            
+            photo.setOrigin("flickr");
 
             photos.add(photo);
         }
@@ -173,6 +175,6 @@ public class FlickrPhotoSearchService implements PhotoItemExtractor {
             Collections.shuffle(photos, new Random());
         }
 
-        return new PhotoItemPage(page, pages, count, photos, "flickr");
+        return new PhotoItemPage(page, pages, count, photos);
     }
 }
