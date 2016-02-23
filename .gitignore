@@ -1,4 +1,9 @@
 /rest-utils/target/
+/rest-utils/nb-configuration.xml
 /rest-flicker/target/
+/rest-flicker/nb-configuration.xml
 /rest-fivepix/target/
+/rest-fivepix/nb-configuration.xml
 /rest-ameizon/target/
+/rest-ameizon/nb-configuration.xml
+/nb-configuration.xml
