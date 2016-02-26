@@ -7,9 +7,11 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectResult;
 import java.io.File;
+import java.io.InputStream;
 
 /**
  * An amazon AWS S3 storage service consumer to upload file objects into the
@@ -22,17 +24,11 @@ public class AmazonStorageService {
     // Storage bucket
     private final String bucket;
 
-    // Bucket region name
-    private final String regionName;
-
     // Folder path within bucket
     private final String folderPath;
 
-    // Service authentication access key
-    private final String accessKey;
-
-    // Service authentication secret key
-    private final String secretKey;
+    // Storage service S3 client
+    private final AmazonS3 client;
 
     /**
      * A constructor initiating a S3 storage service given the bucket info plus
@@ -46,10 +42,16 @@ public class AmazonStorageService {
      */
     public AmazonStorageService(String bucket, String regionName, String folderPath, String accessKey, String secretKey) {
         this.bucket = bucket;
-        this.regionName = regionName;
         this.folderPath = folderPath;
-        this.accessKey = accessKey;
-        this.secretKey = secretKey;
+
+        // Setting up the service client instance
+        AWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
+
+        client = new AmazonS3Client(credentials);
+
+        // Defining the region on which the bucket is attached
+        Region region = Region.getRegion(Regions.valueOf(regionName));
+        client.setRegion(region);
     }
 
     /**
@@ -60,30 +62,34 @@ public class AmazonStorageService {
      * @throws Exception throws unknown errors.
      */
     public String put(File file) throws Exception {
-        // Setting up the client populated with the credentials
-        AWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
+        // Sending the object put request given a public read access
+        PutObjectRequest object = new PutObjectRequest(bucket, folderPath + "/" + file.getName(), file);
+        object.withCannedAcl(CannedAccessControlList.PublicRead);
 
-        AmazonS3 s3client = new AmazonS3Client(credentials);
+        PutObjectResult result = client.putObject(object);
 
-        // Defining the region on which the bucket is created
-        Region region = Region.getRegion(Regions.valueOf(regionName));
-        s3client.setRegion(region);
+        return result.getContentMd5();
+    }
 
-        // TMP
-        System.out.println("Uploading a new object to S3 from a file '" + file.getName() + "'");
+    /**
+     * A method posting the given input stream given the stream bytes as also
+     * the metadata.
+     *
+     * @param inputStream the input stream to post.
+     * @param contentLength the content length of the stream.
+     * @param fileName the file name.
+     * @param contentType the content type of the file.
+     * @return the MD5 token of the file after posted.
+     * @throws Exception throws unknown errors.
+     */
+    public String put(InputStream inputStream, long contentLength, String fileName, String contentType) throws Exception {
+        // Setting the metadata
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentLength(contentLength);
+        metadata.setContentType(contentType);
 
         // Sending the object put request given a public read access
-        PutObjectRequest por = new PutObjectRequest(bucket, folderPath + "/" + file.getName(), file);
-        por.withCannedAcl(CannedAccessControlList.PublicRead);
-
-        // TMP
-        long s = System.currentTimeMillis();
-
-        PutObjectResult result = s3client.putObject(por);
-
-        // TMP
-        System.out.println("Tm: " + (System.currentTimeMillis() - s) / 1000.0);
-        System.out.println("MD5: " + result.getContentMd5().toUpperCase());
+        PutObjectResult result = client.putObject(bucket, folderPath + "/" + fileName, inputStream, metadata);
 
         return result.getContentMd5();
     }
