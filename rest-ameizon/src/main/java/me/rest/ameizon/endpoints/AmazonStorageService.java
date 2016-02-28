@@ -58,13 +58,20 @@ public class AmazonStorageService {
      * A method posting the given file object to the amazon storage cloud.
      *
      * @param file the file to post.
+     * @param publicAccess set public access to the object.
      * @return the MD5 token of the file after posted.
      * @throws Exception throws unknown errors.
      */
-    public String put(File file) throws Exception {
-        // Sending the object put request given a public read access
-        PutObjectRequest object = new PutObjectRequest(bucket, folderPath + "/" + file.getName(), file);
-        object.withCannedAcl(CannedAccessControlList.PublicRead);
+    public String put(File file, boolean publicAccess) throws Exception {
+        // Setting up the object put request
+        String key = folderPath + "/" + file.getName();
+
+        PutObjectRequest object = new PutObjectRequest(bucket, key, file);
+
+        // Setting public access to the object
+        if (publicAccess) {
+            object.withCannedAcl(CannedAccessControlList.PublicRead);
+        }
 
         PutObjectResult result = client.putObject(object);
 
@@ -73,23 +80,33 @@ public class AmazonStorageService {
 
     /**
      * A method posting the given input stream given the stream bytes as also
-     * the metadata.
+     * the various meta data.
      *
      * @param inputStream the input stream to post.
      * @param contentLength the content length of the stream.
      * @param fileName the file name.
      * @param contentType the content type of the file.
+     * @param publicAccess set public access to the object.
      * @return the MD5 token of the file after posted.
      * @throws Exception throws unknown errors.
      */
-    public String put(InputStream inputStream, long contentLength, String fileName, String contentType) throws Exception {
-        // Setting the metadata
+    public String put(InputStream inputStream, long contentLength, String fileName, String contentType, boolean publicAccess) throws Exception {
+        // Setting up the metadata
+        String key = folderPath + "/" + fileName;
+
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentLength(contentLength);
         metadata.setContentType(contentType);
 
-        // Sending the object put request given a public read access
-        PutObjectResult result = client.putObject(bucket, folderPath + "/" + fileName, inputStream, metadata);
+        // Setting up the object put request
+        PutObjectRequest object = new PutObjectRequest(bucket, key, inputStream, metadata);
+
+        // Setting public access to the object
+        if (publicAccess) {
+            object.withCannedAcl(CannedAccessControlList.PublicRead);
+        }
+
+        PutObjectResult result = client.putObject(object);
 
         return result.getContentMd5();
     }
