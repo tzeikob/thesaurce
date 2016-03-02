@@ -84,7 +84,7 @@ public class FlickerPhotoSearchService implements PhotoItemExtractor {
             params.put("radius", String.valueOf(location.getRadius()));
         }
 
-        params.put("sort", "relevance");
+        params.put("sort", "date-posted-desc");
         params.put("safe_search", "1");
         params.put("extras", "owner_name,url_q,url_m,url_n,geo,count_faves");
         params.put("per_page", String.valueOf(pageSize));
@@ -154,8 +154,8 @@ public class FlickerPhotoSearchService implements PhotoItemExtractor {
             }
 
             photo.setThumbnailUrl(thumbnailUrl);
-            photo.setWidth(width);
-            photo.setHeight(height);
+            photo.setThumbnailWidth(width);
+            photo.setThumbnailHeight(height);
 
             String userId = item.path("owner").asText();
             photo.setPhotoUrl("https://www.flickr.com/photos/" + userId + "/" + photoId);

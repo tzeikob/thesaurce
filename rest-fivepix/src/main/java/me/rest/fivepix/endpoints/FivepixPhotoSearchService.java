@@ -80,8 +80,8 @@ public class FivepixPhotoSearchService implements PhotoItemExtractor {
             params.put("geo", lat + "," + lon + "," + radius + "km");
         }
 
-        params.put("image_size", "30,200");
-        params.put("sort", "_score");
+        params.put("image_size", "30");
+        params.put("sort", "created_at");
         params.put("rpp", String.valueOf(pageSize));
         params.put("page", String.valueOf(page));
 

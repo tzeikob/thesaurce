@@ -29,17 +29,17 @@ public class PhotoItem {
     private String thumbnailUrl;
 
     // Thumbnail width
-    private int width;
+    private int thumbnailWidth;
 
     // Thumbnail height
-    private int height;
+    private int thumbnailHeight;
 
     // Photo URL path
     private String photoUrl;
-    
+
     // Owner's profile URL path
     private String profileUrl;
-    
+
     // Provider's origin name
     private String origin;
 
@@ -99,20 +99,20 @@ public class PhotoItem {
         this.thumbnailUrl = thumbnailUrl;
     }
 
-    public int getWidth() {
-        return width;
+    public int getThumbnailWidth() {
+        return thumbnailWidth;
     }
 
-    public void setWidth(int width) {
-        this.width = width;
+    public void setThumbnailWidth(int thumbnailWidth) {
+        this.thumbnailWidth = thumbnailWidth;
     }
 
-    public int getHeight() {
-        return height;
+    public int getThumbnailHeight() {
+        return thumbnailHeight;
     }
 
-    public void setHeight(int height) {
-        this.height = height;
+    public void setThumbnailHeight(int thumbnailHeight) {
+        this.thumbnailHeight = thumbnailHeight;
     }
 
     public String getPhotoUrl() {
