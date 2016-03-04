@@ -76,11 +76,13 @@ public class FivepixPhotoSearchService implements PhotoItemExtractor {
             double lat = location.getLatitude();
             double lon = location.getLongitude();
             double radius = location.getRadius();
-            
+
             params.put("geo", lat + "," + lon + "," + radius + "km");
         }
 
+        // Setting image size to 256px on the longest edge
         params.put("image_size", "30");
+
         params.put("sort", "created_at");
         params.put("rpp", String.valueOf(pageSize));
         params.put("page", String.valueOf(page));
@@ -127,15 +129,41 @@ public class FivepixPhotoSearchService implements PhotoItemExtractor {
             photo.setLatitude(item.path("latitude").asDouble());
             photo.setLongitude(item.path("longitude").asDouble());
 
-            String imageURL = item.path("image_url").asText();
+            // Expecting only one image thumbnail with 256px on the longest edge
+            JsonNode imagesNode = item.path("images").elements().next();
+            String imageURL = imagesNode.path("url").asText();
             photo.setThumbnailUrl(imageURL);
+
+            // Calculating the thumbnail dims regarding the original ratio
+            int oW = item.path("width").asInt();
+            int oH = item.path("height").asInt();
+
+            int tW, tH;
+
+            if (oW > oH) {
+                double ratio = oH / (double) oW;
+
+                tW = 256;
+                tH = (int) Math.round(256 * ratio);
+            } else if (oH > oW) {
+                double ratio = oW / (double) oH;
+
+                tH = 256;
+                tW = (int) Math.round(256 * ratio);
+            } else {
+                tW = 256;
+                tH = 256;
+            }
+
+            photo.setThumbnailWidth(tW);
+            photo.setThumbnailHeight(tH);
 
             photo.setPhotoUrl("https://500px.com" + item.path("url").asText());
 
             JsonNode userNode = item.path("user");
             photo.setOwner(userNode.path("fullname").asText());
             photo.setProfileUrl("https://500px.com/" + userNode.path("username").asText());
-            
+
             photo.setOrigin("500px");
 
             photos.add(photo);
