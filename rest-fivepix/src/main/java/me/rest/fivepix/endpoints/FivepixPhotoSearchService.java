@@ -22,6 +22,12 @@ import me.rest.utils.model.PhotoItemPage;
  * @author Akis papadopoulos
  */
 public class FivepixPhotoSearchService implements PhotoItemExtractor {
+    
+    // Thumbnail size identifier regarding 500px docs
+    private static final String SIZE_ID = "4";
+    
+    // Thumbnail size in the longest edge in pixels
+    private static final int SIZE_ON_LONGEST_EDGE = 900;
 
     // Service URL
     private String serviceURL;
@@ -80,8 +86,8 @@ public class FivepixPhotoSearchService implements PhotoItemExtractor {
             params.put("geo", lat + "," + lon + "," + radius + "km");
         }
 
-        // Setting image size to 256px on the longest edge
-        params.put("image_size", "30");
+        // Setting image size to 900px on the longest edge
+        params.put("image_size", SIZE_ID);
 
         params.put("sort", "created_at");
         params.put("rpp", String.valueOf(pageSize));
@@ -134,25 +140,22 @@ public class FivepixPhotoSearchService implements PhotoItemExtractor {
             String imageURL = imagesNode.path("url").asText();
             photo.setThumbnailUrl(imageURL);
 
-            // Calculating the thumbnail dims regarding the original ratio
+            // Calculating the thumbnail dims regarding the original aspect ratio
             int oW = item.path("width").asInt();
             int oH = item.path("height").asInt();
+            
+            double ratio = (double) oW / (double) oH;
 
             int tW, tH;
 
             if (oW > oH) {
-                double ratio = oH / (double) oW;
-
-                tW = 256;
-                tH = (int) Math.round(256 * ratio);
+                tW = SIZE_ON_LONGEST_EDGE;
+                tH = (int) Math.round(tW / ratio);
             } else if (oH > oW) {
-                double ratio = oW / (double) oH;
-
-                tH = 256;
-                tW = (int) Math.round(256 * ratio);
+                tH = SIZE_ON_LONGEST_EDGE;
+                tW = (int) Math.round(tH * ratio);
             } else {
-                tW = 256;
-                tH = 256;
+                tW = tH = SIZE_ON_LONGEST_EDGE;
             }
 
             photo.setThumbnailWidth(tW);
