@@ -23,6 +23,9 @@ import me.rest.utils.model.PhotoItemPage;
  */
 public class FlickerPhotoSearchService implements PhotoItemExtractor {
 
+    // Image size suffix letters regarding flickr's documentation
+    private static final String[] suffixes = {"c", "z", "n"};
+
     // Service URL
     private String serviceURL;
 
@@ -86,7 +89,18 @@ public class FlickerPhotoSearchService implements PhotoItemExtractor {
 
         params.put("sort", "date-posted-desc");
         params.put("safe_search", "1");
-        params.put("extras", "owner_name,url_q,url_m,url_n,geo,count_faves");
+
+        // Requesting some extra metadata
+        StringBuilder extras = new StringBuilder();
+        extras.append("owner_name,geo,count_faves");
+
+        // Adding size aware parameters regarding flickr wise letter suffixes
+        for (int i = 0; i < suffixes.length; i++) {
+            extras.append(",url_").append(suffixes[i]);
+        }
+
+        params.put("extras", extras.toString());
+        
         params.put("per_page", String.valueOf(pageSize));
         params.put("page", String.valueOf(page));
 
@@ -136,26 +150,25 @@ public class FlickerPhotoSearchService implements PhotoItemExtractor {
             photo.setLatitude(item.path("latitude").asDouble());
             photo.setLongitude(item.path("longitude").asDouble());
 
-            // Setting the first available URL otherwise null or empty
-            String thumbnailUrl = item.path("url_n").asText();
-            int width = item.path("width_n").asInt();
-            int height = item.path("height_n").asInt();
+            // Setting the first matched thumbnail otherwise null
+            String thumbnailUrl;
 
-            if (thumbnailUrl == null || thumbnailUrl.isEmpty()) {
-                thumbnailUrl = item.path("url_m").asText();
-                width = item.path("width_m").asInt();
-                height = item.path("height_m").asInt();
+            for (int i = 0; i < suffixes.length; i++) {
+                thumbnailUrl = item.path("url_" + suffixes[i]).asText();
 
-                if (thumbnailUrl == null || thumbnailUrl.isEmpty()) {
-                    thumbnailUrl = item.path("url_q").asText();
-                    width = item.path("width_q").asInt();
-                    height = item.path("height_q").asInt();
+                if (thumbnailUrl != null && !thumbnailUrl.isEmpty()) {
+                    // Setting the metadata and then break the loop
+                    photo.setThumbnailUrl(thumbnailUrl);
+                    
+                    int width = item.path("width_" + suffixes[i]).asInt();
+                    int height = item.path("height_" + suffixes[i]).asInt();
+                    
+                    photo.setThumbnailWidth(width);
+                    photo.setThumbnailHeight(height);
+                    
+                    break;
                 }
             }
-
-            photo.setThumbnailUrl(thumbnailUrl);
-            photo.setThumbnailWidth(width);
-            photo.setThumbnailHeight(height);
 
             String userId = item.path("owner").asText();
             photo.setPhotoUrl("https://www.flickr.com/photos/" + userId + "/" + photoId);
