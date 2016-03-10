@@ -24,7 +24,7 @@ import me.rest.utils.model.PhotoItemPage;
 public class FlickerPhotoSearchService implements PhotoItemExtractor {
 
     // Image size suffix letters regarding flickr's documentation
-    private static final String[] suffixes = {"c", "z", "n"};
+    private static final String[] suffixes = {"z", "n", "m"};
 
     // Service URL
     private String serviceURL;

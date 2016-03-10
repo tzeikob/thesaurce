@@ -24,10 +24,10 @@ import me.rest.utils.model.PhotoItemPage;
 public class FivepixPhotoSearchService implements PhotoItemExtractor {
     
     // Thumbnail size identifier regarding 500px docs
-    private static final String SIZE_ID = "4";
+    private static final String SIZE_ID = "21";
     
     // Thumbnail size in the longest edge in pixels
-    private static final int SIZE_ON_LONGEST_EDGE = 900;
+    private static final int SIZE_ON_LONGEST_EDGE = 600;
 
     // Service URL
     private String serviceURL;
