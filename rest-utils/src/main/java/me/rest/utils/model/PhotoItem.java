@@ -16,8 +16,11 @@ public class PhotoItem {
     // Title
     private String title;
 
-    // Number of hits, likes or views
-    private int hits;
+    // Number of likes or favs
+    private int likes;
+    
+    // Number of total views
+    private int views;
 
     // Latitude cords
     private double latitude;
@@ -67,12 +70,20 @@ public class PhotoItem {
         this.title = title;
     }
 
-    public int getHits() {
-        return hits;
+    public int getLikes() {
+        return likes;
     }
 
-    public void setHits(int hits) {
-        this.hits = hits;
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+
+    public int getViews() {
+        return views;
+    }
+
+    public void setViews(int views) {
+        this.views = views;
     }
 
     public double getLatitude() {

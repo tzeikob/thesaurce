@@ -4,14 +4,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.kevinsawicki.http.HttpRequest;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import me.rest.utils.impl.PhotoItemExtractor;
 import me.rest.utils.model.InterestPoint;
+import me.rest.utils.model.OrderMode;
 import me.rest.utils.model.PhotoItem;
 import me.rest.utils.model.PhotoItemPage;
 
@@ -36,10 +35,10 @@ public class FivepixPhotoSearchService implements PhotoItemExtractor {
     private String consumerKey;
 
     // Number of items per page
-    protected int pageSize = 20;
+    private int pageSize;
 
-    // Option to shuffle the results
-    protected boolean shuffle = false;
+    // Ordering mode
+    private OrderMode order;
 
     /**
      * A constructor initiating a 500px photo consumer given the service
@@ -48,13 +47,13 @@ public class FivepixPhotoSearchService implements PhotoItemExtractor {
      * @param serviceURL the service URL.
      * @param consumerKey the consumer key.
      * @param pageSize the number of items per page.
-     * @param shuffle true to shuffle the items order otherwise false.
+     * @param order how the photo items should sorted.
      */
-    public FivepixPhotoSearchService(String serviceURL, String consumerKey, int pageSize, boolean shuffle) {
+    public FivepixPhotoSearchService(String serviceURL, String consumerKey, int pageSize, OrderMode order) {
         this.serviceURL = serviceURL;
         this.consumerKey = consumerKey;
         this.pageSize = pageSize;
-        this.shuffle = shuffle;
+        this.order = order;
     }
 
     /**
@@ -88,8 +87,16 @@ public class FivepixPhotoSearchService implements PhotoItemExtractor {
 
         // Setting image size to 900px on the longest edge
         params.put("image_size", SIZE_ID);
-
-        params.put("sort", "created_at");
+        
+        // Setting sort order mode
+        if (order == OrderMode.MOST_RECENT) {
+            params.put("sort", "created_at");
+        } else if(order == OrderMode.MOST_RELEVANT) {
+            params.put("sort", "_score");
+        } else if(order == OrderMode.MOST_RATED) {
+            params.put("sort", "times_viewed");
+        }
+        
         params.put("rpp", String.valueOf(pageSize));
         params.put("page", String.valueOf(page));
 
@@ -130,7 +137,8 @@ public class FivepixPhotoSearchService implements PhotoItemExtractor {
 
             photo.setId(item.path("id").asText());
             photo.setTitle(item.path("name").asText());
-            photo.setHits(item.path("votes_count").asInt());
+            photo.setLikes(item.path("votes_count").asInt());
+            photo.setViews(item.path("times_viewed").asInt());
 
             photo.setLatitude(item.path("latitude").asDouble());
             photo.setLongitude(item.path("longitude").asDouble());
@@ -172,11 +180,6 @@ public class FivepixPhotoSearchService implements PhotoItemExtractor {
             photos.add(photo);
         }
 
-        // Shuffling items randomly
-        if (shuffle) {
-            Collections.shuffle(photos, new Random());
-        }
-
-        return new PhotoItemPage(page, pages, count, photos);
+        return new PhotoItemPage(page, pages, count, photos, order);
     }
 }

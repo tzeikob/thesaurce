@@ -4,14 +4,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.kevinsawicki.http.HttpRequest;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import me.rest.utils.impl.PhotoItemExtractor;
 import me.rest.utils.model.InterestPoint;
+import me.rest.utils.model.OrderMode;
 import me.rest.utils.model.PhotoItem;
 import me.rest.utils.model.PhotoItemPage;
 
@@ -33,10 +32,10 @@ public class FlickerPhotoSearchService implements PhotoItemExtractor {
     private String apiKey;
 
     // Number of items per page
-    protected int pageSize = 20;
+    private int pageSize;
 
-    // Option to shuffle the results
-    protected boolean shuffle = false;
+    // Ordering mode
+    private OrderMode order;
 
     /**
      * A constructor initiating a Flickr photo consumer given the service
@@ -45,13 +44,13 @@ public class FlickerPhotoSearchService implements PhotoItemExtractor {
      * @param serviceURL the service URL.
      * @param apiKey the API token.
      * @param pageSize the number of items per page.
-     * @param shuffle true to shuffle the items order otherwise false.
+     * @param order how the photo items should sorted.
      */
-    public FlickerPhotoSearchService(String serviceURL, String apiKey, int pageSize, boolean shuffle) {
+    public FlickerPhotoSearchService(String serviceURL, String apiKey, int pageSize, OrderMode order) {
         this.serviceURL = serviceURL;
         this.apiKey = apiKey;
         this.pageSize = pageSize;
-        this.shuffle = shuffle;
+        this.order = order;
     }
 
     /**
@@ -85,14 +84,23 @@ public class FlickerPhotoSearchService implements PhotoItemExtractor {
             params.put("lat", String.valueOf(location.getLatitude()));
             params.put("lon", String.valueOf(location.getLongitude()));
             params.put("radius", String.valueOf(location.getRadius()));
+            params.put("radius_units", "km");
+        }
+        
+        // Setting sort order mode
+        if (order == OrderMode.MOST_RECENT) {
+            params.put("sort", "date-posted-desc");
+        } else if(order == OrderMode.MOST_RELEVANT) {
+            params.put("sort", "relevance");
+        } else if(order == OrderMode.MOST_RATED) {
+            params.put("sort", "interestingness-desc");
         }
 
-        params.put("sort", "date-posted-desc");
         params.put("safe_search", "1");
 
         // Requesting some extra metadata
         StringBuilder extras = new StringBuilder();
-        extras.append("owner_name,geo,count_faves");
+        extras.append("owner_name,geo,count_faves,views");
 
         // Adding size aware parameters regarding flickr wise letter suffixes
         for (int i = 0; i < suffixes.length; i++) {
@@ -100,7 +108,7 @@ public class FlickerPhotoSearchService implements PhotoItemExtractor {
         }
 
         params.put("extras", extras.toString());
-        
+
         params.put("per_page", String.valueOf(pageSize));
         params.put("page", String.valueOf(page));
 
@@ -145,7 +153,8 @@ public class FlickerPhotoSearchService implements PhotoItemExtractor {
 
             photo.setOwner(item.path("ownername").asText());
             photo.setTitle(item.path("title").asText());
-            photo.setHits(item.path("count_faves").asInt());
+            photo.setLikes(item.path("count_faves").asInt());
+            photo.setViews(item.path("views").asInt());
 
             photo.setLatitude(item.path("latitude").asDouble());
             photo.setLongitude(item.path("longitude").asDouble());
@@ -159,13 +168,13 @@ public class FlickerPhotoSearchService implements PhotoItemExtractor {
                 if (thumbnailUrl != null && !thumbnailUrl.isEmpty()) {
                     // Setting the metadata and then break the loop
                     photo.setThumbnailUrl(thumbnailUrl);
-                    
+
                     int width = item.path("width_" + suffixes[i]).asInt();
                     int height = item.path("height_" + suffixes[i]).asInt();
-                    
+
                     photo.setThumbnailWidth(width);
                     photo.setThumbnailHeight(height);
-                    
+
                     break;
                 }
             }
@@ -173,17 +182,12 @@ public class FlickerPhotoSearchService implements PhotoItemExtractor {
             String userId = item.path("owner").asText();
             photo.setPhotoUrl("https://www.flickr.com/photos/" + userId + "/" + photoId);
             photo.setProfileUrl("https://www.flickr.com/photos/" + userId);
-            
+
             photo.setOrigin("flickr");
 
             photos.add(photo);
         }
 
-        // Shuffling items randomly
-        if (shuffle) {
-            Collections.shuffle(photos, new Random());
-        }
-
-        return new PhotoItemPage(page, pages, count, photos);
+        return new PhotoItemPage(page, pages, count, photos, order);
     }
 }

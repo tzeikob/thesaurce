@@ -21,6 +21,9 @@ public class PhotoItemPage {
 
     // Photo item list
     private List<PhotoItem> photos;
+    
+    // Order mode applied
+    private OrderMode order;
 
     /**
      * A constructor initiates a result page given both page information and the
@@ -30,12 +33,14 @@ public class PhotoItemPage {
      * @param pages the total number of the pages.
      * @param total the total number of items.
      * @param photos the list of photo items.
+     * @param order the order mode applied.
      */
-    public PhotoItemPage(int page, int pages, int total, List<PhotoItem> photos) {
+    public PhotoItemPage(int page, int pages, int total, List<PhotoItem> photos, OrderMode order) {
         this.page = page;
         this.pages = pages;
         this.total = total;
         this.photos = photos;
+        this.order = order;
     }
 
     public int getPage() {
@@ -68,5 +73,13 @@ public class PhotoItemPage {
 
     public void setPhotos(List<PhotoItem> photos) {
         this.photos = photos;
+    }
+
+    public OrderMode getOrder() {
+        return order;
+    }
+
+    public void setOrder(OrderMode order) {
+        this.order = order;
     }
 }
