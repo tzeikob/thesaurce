@@ -26,7 +26,7 @@ public class FlickerPhotoSearchService implements PhotoItemExtractor {
     private static final String[] suffixes = {"z", "n", "m"};
 
     // Service URL
-    private String serviceURL;
+    private static final String SERVICE_URL = "https://api.flickr.com/services/rest/?";
 
     // Service API key
     private String apiKey;
@@ -41,13 +41,11 @@ public class FlickerPhotoSearchService implements PhotoItemExtractor {
      * A constructor initiating a Flickr photo consumer given the service
      * credentials.
      *
-     * @param serviceURL the service URL.
      * @param apiKey the API token.
      * @param pageSize the number of items per page.
      * @param order how the photo items should sorted.
      */
-    public FlickerPhotoSearchService(String serviceURL, String apiKey, int pageSize, OrderMode order) {
-        this.serviceURL = serviceURL;
+    public FlickerPhotoSearchService(String apiKey, int pageSize, OrderMode order) {
         this.apiKey = apiKey;
         this.pageSize = pageSize;
         this.order = order;
@@ -113,7 +111,7 @@ public class FlickerPhotoSearchService implements PhotoItemExtractor {
         params.put("page", String.valueOf(page));
 
         // Sending the request
-        result = HttpRequest.get(serviceURL, params, true).accept("application/json").body();
+        result = HttpRequest.get(SERVICE_URL, params, true).accept("application/json").body();
 
         return result;
     }

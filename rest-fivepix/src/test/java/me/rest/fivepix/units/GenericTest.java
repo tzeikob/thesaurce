@@ -21,13 +21,11 @@ public class GenericTest {
 
     private static final Logger logger = Logger.getLogger(GenericTest.class);
 
-    private static final String serviceURL = "https://api.500px.com";
-
     private static final String consumerKey = "d7NkZlpxGAO1VHlhsJGhC2V8qYT7JPkKpPh5w5IO";
 
     @Test
     public void testPhotoSearchService() throws Exception {
-        FivepixPhotoSearchService endpoint = new FivepixPhotoSearchService(serviceURL, consumerKey, 60, OrderMode.MOST_RELEVANT);
+        FivepixPhotoSearchService endpoint = new FivepixPhotoSearchService(consumerKey, 60, OrderMode.MOST_RELEVANT);
 
         String result = endpoint.search("sydney opera", null, 1);
 

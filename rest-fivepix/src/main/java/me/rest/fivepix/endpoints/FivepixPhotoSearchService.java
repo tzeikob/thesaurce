@@ -29,7 +29,7 @@ public class FivepixPhotoSearchService implements PhotoItemExtractor {
     private static final int SIZE_ON_LONGEST_EDGE = 600;
 
     // Service URL
-    private String serviceURL;
+    private static final String SERVICE_URL = "https://api.500px.com/v1/photos/search?";
 
     // Service consumer key
     private String consumerKey;
@@ -44,13 +44,11 @@ public class FivepixPhotoSearchService implements PhotoItemExtractor {
      * A constructor initiating a 500px photo consumer given the service
      * credentials.
      *
-     * @param serviceURL the service URL.
      * @param consumerKey the consumer key.
      * @param pageSize the number of items per page.
      * @param order how the photo items should sorted.
      */
-    public FivepixPhotoSearchService(String serviceURL, String consumerKey, int pageSize, OrderMode order) {
-        this.serviceURL = serviceURL;
+    public FivepixPhotoSearchService(String consumerKey, int pageSize, OrderMode order) {
         this.consumerKey = consumerKey;
         this.pageSize = pageSize;
         this.order = order;
@@ -101,7 +99,7 @@ public class FivepixPhotoSearchService implements PhotoItemExtractor {
         params.put("page", String.valueOf(page));
 
         // Sending the request
-        result = HttpRequest.get(serviceURL + "/v1/photos/search?", params, true).accept("application/json").body();
+        result = HttpRequest.get(SERVICE_URL, params, true).accept("application/json").body();
 
         return result;
     }

@@ -21,13 +21,11 @@ public class GenericTest {
 
     private static final Logger logger = Logger.getLogger(GenericTest.class);
 
-    private static final String serviceURL = "https://api.flickr.com/services/rest/?";
-
     private static final String apiKey = "1a6b6b1013dbb8c633c3135103c4ad78";
 
     @Test
     public void testPhotosSearchService() throws Exception {
-        FlickerPhotoSearchService endpoint = new FlickerPhotoSearchService(serviceURL, apiKey, 60, OrderMode.MOST_RATED);
+        FlickerPhotoSearchService endpoint = new FlickerPhotoSearchService(apiKey, 60, OrderMode.MOST_RATED);
 
         String result = endpoint.search("christo redentor rio", null, 1);
 
