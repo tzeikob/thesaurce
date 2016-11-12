@@ -1,4 +1,4 @@
 /target/
-/db-broker/target/
+/datasource-manager/target/
 /secure-data-engine/target/
 nb-configuration.xml

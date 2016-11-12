@@ -12,14 +12,15 @@
     <description>A well documented thesaurus repository of source code examples.</description>
     
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.compiler.source>1.7</maven.compiler.source>
-        <maven.compiler.target>1.7</maven.compiler.target>
+        <project.build.source.encoding>UTF-8</project.build.source.encoding>
+        <project.reporting.output.encoding>UTF-8</project.reporting.output.encoding>
+        <version.compiler.plugin>3.1</version.compiler.plugin>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
     
     <modules>
-        <module>db-broker</module>
+        <module>datasource-manager</module>
         <module>secure-data-engine</module>
     </modules>
 </project>
