@@ -1,4 +1,4 @@
-package me.salters;
+package com.tkb.the.psg.salt;
 
 /**
  * A generic salting interface.

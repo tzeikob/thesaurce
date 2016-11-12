@@ -1,4 +1,4 @@
-package me.encryptors;
+package com.tkb.the.psg.encryption;
 
 import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;

@@ -1,4 +1,4 @@
-package me.encryptors;
+package com.tkb.the.psg.encryption;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

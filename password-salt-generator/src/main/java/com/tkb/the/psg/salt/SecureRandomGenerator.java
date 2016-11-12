@@ -1,4 +1,4 @@
-package me.salters;
+package com.tkb.the.psg.salt;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;

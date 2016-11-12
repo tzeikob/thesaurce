@@ -1,4 +1,4 @@
-package me.encryptors;
+package com.tkb.the.psg.encryption;
 
 /**
  * A generic data encryptor interface.
