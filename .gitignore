@@ -1,4 +1,2 @@
-/target/
-/datasource-manager/target/
-/secure-data-engine/target/
+*/target/*
 nb-configuration.xml

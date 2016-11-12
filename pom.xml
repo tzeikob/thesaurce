@@ -21,6 +21,6 @@
     
     <modules>
         <module>datasource-manager</module>
-        <module>secure-data-engine</module>
+        <module>password-salt-generator</module>
     </modules>
 </project>
