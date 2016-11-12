@@ -1,4 +1,4 @@
-package me.db;
+package com.tkb.the.dsm.db;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

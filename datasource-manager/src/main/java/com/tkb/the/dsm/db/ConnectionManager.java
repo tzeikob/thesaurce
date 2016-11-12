@@ -1,4 +1,4 @@
-package me.db;
+package com.tkb.the.dsm.db;
 
 /**
  * An abstract data source connection manager.

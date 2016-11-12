@@ -1,13 +1,13 @@
-package me.units;
+package com.tkb.the.dsm.unit;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import me.db.ConnectionManager;
-import me.db.ConnectionPool;
-import me.db.ConnectionSession;
+import com.tkb.the.dsm.db.ConnectionManager;
+import com.tkb.the.dsm.db.ConnectionPool;
+import com.tkb.the.dsm.db.ConnectionSession;
 import org.apache.log4j.Logger;
 import static org.junit.Assert.*;
 import org.junit.Test;
@@ -23,7 +23,7 @@ public class GenericTestCase {
     private static final Logger logger = Logger.getLogger(GenericTestCase.class);
     
     // Connection manager
-    private static ConnectionManager cm = new ConnectionPool("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/agrodb?useUnicode=true&characterEncoding=UTF-8&useFastDateParsing=false", "root", "root");
+    private static ConnectionManager cm = new ConnectionPool("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/mysql?useUnicode=true&characterEncoding=UTF-8&useFastDateParsing=false", "root", "root");
     
     @Test
     public void testConnection() {
@@ -50,16 +50,16 @@ public class GenericTestCase {
     
     @Test
     public void testSelectStatement() throws SQLException {
-        String query = "SELECT * FROM fields WHERE region LIKE ?";
+        String query = "SELECT * FROM user WHERE user LIKE ?";
         
         ConnectionSession cs = cm.getSession();
         
         PreparedStatement ps = cs.getStatement(query);
-        ps.setString(1, "ΜΠΑ%");
+        ps.setString(1, "ro%");
         ResultSet result = ps.executeQuery();
         
         while(result.next()) {
-            logger.info("[" + result.getString("fid") + ", " + result.getString("region") + "]");
+            logger.info("[" + result.getString("host") + ", " + result.getString("user") + "]");
         }
         
         cs.close(ps, result);
