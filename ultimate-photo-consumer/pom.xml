@@ -9,6 +9,7 @@
     <name>ultimate-photo-consumer</name>
     <version>1.0</version>
     <packaging>jar</packaging>
+    <description>A service client searching for photos using various public APIs.</description>
     
     <parent>
         <groupId>me.ext.libs.rest</groupId>

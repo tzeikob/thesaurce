@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>me.ext.libs.rest</groupId>
-    <artifactId>aws-s3-uploader</artifactId>
-    <name>aws-s3-uploader</name>
-    <url>https://bitbucket.org/tz3ik/restables</url>
+    <artifactId>amazon-s3-uploader</artifactId>
+    <name>amazon-s3-uploader</name>
     <version>1.0</version>
     <packaging>jar</packaging>
+    <description>A service client module uploading file items to AWS S3 storage service.</description>
     
     <parent>
         <groupId>me.ext.libs.rest</groupId>
@@ -24,12 +27,6 @@
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-java-sdk-s3</artifactId>
             <version>1.10.56</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>me.ext.libs.rest</groupId>
-            <artifactId>rest-utils</artifactId>
-            <version>1.0</version>
         </dependency>
     </dependencies>
     

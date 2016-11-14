@@ -1,4 +1,4 @@
-package me.rest.ameizon.endpoints;
+package com.tkb.the.asu.service;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
