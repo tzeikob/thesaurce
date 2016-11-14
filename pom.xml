@@ -19,7 +19,7 @@
         <module>rest-utils</module>
         <module>rest-flicker</module>
         <module>rest-fivepix</module>
-        <module>rest-ameizon</module>
+        <module>aws-s3-uploader</module>
     </modules>
     
     <dependencies>
