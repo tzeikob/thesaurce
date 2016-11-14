@@ -1,4 +1,4 @@
-package me.rest.flicker.endpoints;
+package com.tkb.the.upc.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
