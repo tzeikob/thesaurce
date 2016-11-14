@@ -16,7 +16,6 @@
     </properties>
     
     <modules>
-        <module>rest-utils</module>
         <module>ultimate-photo-consumer</module>
         <module>rest-fivepix</module>
         <module>aws-s3-uploader</module>
