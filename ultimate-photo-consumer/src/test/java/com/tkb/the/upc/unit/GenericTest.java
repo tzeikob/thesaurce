@@ -8,6 +8,7 @@ import com.tkb.the.upc.service.FlickerPhotoSearchService;
 import com.tkb.the.upc.model.OrderMode;
 import com.tkb.the.upc.model.PhotoItem;
 import com.tkb.the.upc.model.PhotoItemPage;
+import com.tkb.the.upc.service.FivepixPhotoSearchService;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.apache.log4j.Logger;
