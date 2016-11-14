@@ -16,7 +16,7 @@
     </properties>
     
     <modules>
-        <module>aws-s3-uploader</module>
+        <module>amazon-s3-uploader</module>
         <module>ultimate-photo-consumer</module>
     </modules>
 </project>
