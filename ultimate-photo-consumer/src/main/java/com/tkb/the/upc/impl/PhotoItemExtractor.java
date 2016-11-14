@@ -1,6 +1,6 @@
-package me.rest.utils.impl;
+package com.tkb.the.upc.impl;
 
-import me.rest.utils.model.PhotoItemPage;
+import com.tkb.the.upc.model.PhotoItemPage;
 
 /**
  * An abstract implementation in order to extract a result page of photo items

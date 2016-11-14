@@ -1,4 +1,4 @@
-package me.rest.utils.model;
+package com.tkb.the.upc.model;
 
 /**
  * A photo item encapsulating various textual metadata.

@@ -1,4 +1,4 @@
-package me.rest.utils.model;
+package com.tkb.the.upc.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

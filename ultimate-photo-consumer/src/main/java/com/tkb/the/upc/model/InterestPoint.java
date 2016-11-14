@@ -1,4 +1,4 @@
-package me.rest.utils.model;
+package com.tkb.the.upc.model;
 
 /**
  * A generic geo-spatial point encapsulating both the latitude and longitude
