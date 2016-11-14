@@ -1,4 +1,4 @@
-package me.rest.fivepix.endpoints;
+package com.tkb.the.upc.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,11 +8,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import me.rest.utils.impl.PhotoItemExtractor;
-import me.rest.utils.model.InterestPoint;
-import me.rest.utils.model.OrderMode;
-import me.rest.utils.model.PhotoItem;
-import me.rest.utils.model.PhotoItemPage;
+import com.tkb.the.upc.impl.PhotoItemExtractor;
+import com.tkb.the.upc.model.InterestPoint;
+import com.tkb.the.upc.model.OrderMode;
+import com.tkb.the.upc.model.PhotoItem;
+import com.tkb.the.upc.model.PhotoItemPage;
 
 /**
  * A photo web service consumer implementation using the 500px search photo API
