@@ -22,5 +22,7 @@
     <modules>
         <module>datasource-manager</module>
         <module>password-salt-generator</module>
+        <module>amazon-s3-uploader</module>
+        <module>ultimate-photo-consumer</module>
     </modules>
 </project>
