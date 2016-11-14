@@ -1,7 +1,7 @@
 package com.tkb.the.asu.unit;
 
+import com.tkb.the.asu.service.AmazonStorageService;
 import java.io.File;
-import me.rest.ameizon.endpoints.AmazonStorageService;
 import org.junit.Test;
 import org.apache.log4j.Logger;
 import static org.junit.Assert.assertNotNull;
