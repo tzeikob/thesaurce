@@ -12,8 +12,7 @@
     <description>A well documented thesaurus repository of source code examples.</description>
     
     <properties>
-        <project.build.source.encoding>UTF-8</project.build.source.encoding>
-        <project.reporting.output.encoding>UTF-8</project.reporting.output.encoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <version.compiler.plugin>3.1</version.compiler.plugin>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
