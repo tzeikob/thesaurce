@@ -7,7 +7,7 @@
     <groupId>com.tzeikob.thesaurce</groupId>
     <artifactId>thesaurce</artifactId>
     <name>thesaurce</name>
-    <version>1.0</version>
+    <version>1.0.0</version>
     <packaging>pom</packaging>
     <description>A well documented thesaurus repository of source code examples.</description>
     

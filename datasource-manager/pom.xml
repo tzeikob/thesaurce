@@ -7,14 +7,14 @@
     <groupId>com.tzeikob.thesaurce</groupId>
     <artifactId>datasource-manager</artifactId>
     <name>datasource-manager</name>
-    <version>1.0</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
     <description>A datasource manager based on connection resources pooling.</description>
     
     <parent>
         <groupId>com.tzeikob.thesaurce</groupId>
         <artifactId>thesaurce</artifactId>
-        <version>1.0</version>
+        <version>1.0.0</version>
     </parent>
 
     <dependencies>

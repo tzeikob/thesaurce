@@ -7,14 +7,14 @@
     <groupId>com.tzeikob.thesaurce</groupId>
     <artifactId>amazon-s3-uploader</artifactId>
     <name>amazon-s3-uploader</name>
-    <version>1.0</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
     <description>A service client module uploading file items to AWS S3 storage service.</description>
     
     <parent>
         <groupId>com.tzeikob.thesaurce</groupId>
         <artifactId>thesaurce</artifactId>
-        <version>1.0</version>
+        <version>1.0.0</version>
     </parent>
     
     <dependencies>
